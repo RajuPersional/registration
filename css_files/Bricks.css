@@ -1,0 +1,186 @@
+/* styles.css */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    height: 100%;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    
+}
+
+.First-container{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100vh;
+   
+ 
+}
+
+.image{
+    width: 100%;
+    height: 100%;
+}
+
+.left-section {
+    width: 70%;
+    height: 100%;
+    opacity: 0.91;
+
+}
+
+.welcome{
+    position: absolute;
+    top: 2%;
+    left:10%;
+    width: 60%;
+    font-size: 115px;
+    color:white;
+    font-weight: bold;
+}
+
+.hightlight{
+    color: hsl(0, 78%, 84%);;
+}
+
+
+.collage-subheading{
+    position: absolute;
+    width: 60%;
+    top: 70%;
+    left:10%;
+    font-size: 60px;
+    color:hwb(0 100% 0%);
+   
+}
+
+
+/* Right Section */
+.right-section {
+    width: 30%; /* Takes half the width */
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.login-container {
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+    padding-top: 0%;
+    
+}
+
+.login-container h1 {
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.login-container label {
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+    font-size: 20px;
+    color: #555;
+}
+
+.login-container input[type="text"],
+.login-container input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 19px;
+    height: 35px;
+}
+
+.password-container {
+    position: relative;
+    
+}
+
+
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 30%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    
+}
+
+.remember-me {
+    display: flex;
+    align-items: center; 
+    justify-content: flex-start; /* Align items to the start */
+    margin-bottom: 15px;
+    gap: 5px; /* Add spacing between the checkbox and the text */
+}
+
+.checkbox {
+    flex: 0 0 10%; /* Set the checkbox to take 10% of the width */
+    max-width: 10%; 
+    height: 30px; 
+    cursor: pointer;
+}
+
+.remember-me-text {
+
+    font-size: 20px; /* Adjust the font size as needed */
+    color: #555; /* Text color */
+    margin-left: 200px; /* Add spacing between the checkbox and the text */
+    justify-content: flex-end;
+}
+.login-button {
+    width: 100%;
+    height: 44px;
+    padding: 10px;
+    background: #6a1b9a;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+.login-button:hover {
+    background: #4a148c;
+}
+
+.links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.links a {
+    font-size: 19px;
+    color: #6a1b9a;
+    text-decoration: none;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
+
+.social-login {
+    margin-top: 20px;
+}
+
+
+
+

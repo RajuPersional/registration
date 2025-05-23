@@ -1,0 +1,347 @@
+/* Course Management Styles */
+.course-management{
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    min-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: none;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+
+}
+
+.courses{
+    display: block;
+}
+
+.inprogress-courses{
+    margin-top: 50px;
+}
+
+.section-headers {
+    padding: 20px 24px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: white;
+    user-select: none;
+    transition: all 0.3s ease;
+    border-radius: 9px;
+}
+
+.section-headers:hover {
+    filter: brightness(1.1);
+}
+
+/* Completed Courses Header */
+.completed-course .section-headers{
+    background: linear-gradient(135deg, #7cc79a 0%, #6ca983 50%);
+}
+
+/* In Progress Courses Header - Slate Blue (Active) */
+.inprogress-courses .section-headers {
+    background: linear-gradient(135deg, #7188c8 0%, #1d4ed8 50%);
+}
+
+.section-icon {
+    margin-right: 12px;
+    font-size: 1.2rem;
+}
+
+.toggle-icon {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.collapsible-section.collapsed .toggle-icon {
+
+    transform: rotate(180deg);
+}
+
+.section-content {
+    padding: 0;
+    background: white;
+    overflow: hidden;
+    border-color: black;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.scrollable-wrapper {
+    max-height: 300px; /* Adjust height as needed */
+    overflow-y: auto;
+}
+
+.collapsible-section.collapsed .section-content {
+    max-height: 0;
+    padding: 0;
+}
+
+/* Table Styles */
+.course-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+.course-table th {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    padding: 16px 12px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #374151;
+    border-bottom: 2px solid #e5e7eb;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+
+.course-table thead th {
+    position: sticky;
+    top: 0;
+    background-color: #f9f9f9; /* Optional: better contrast */
+    z-index: 1;
+}
+
+.course-table td {
+    padding: 16px 12px;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 0.95rem;
+    color: #4b5563;
+    transition: background-color 0.2s ease;
+}
+
+.course-table tr:hover td {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+}
+
+.course-table tr:nth-child(even) td {
+    background: #fafbfc;
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: none;
+    cursor: default;
+}
+
+
+.status-inprogress {
+    background: linear-gradient(135deg, #114aa6 0%, #2563eb 100%);
+    color: white;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+/* Grade Badges */
+.grade-badge {
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 15px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-align: center;
+    min-width: 20px;
+}
+.grade-a {
+    background: linear-gradient(135deg, #18676f 0%, #0e3846 100%); /* Deep academic green */
+    color: white;
+}
+
+.grade-b {
+    background: linear-gradient(135deg, #253c88 0%, #6680c9 90%); /* Royal blue */
+    color: white;
+}
+
+.grade-c {
+    background: linear-gradient(135deg, #8d502c 0%, #a9826c 90%); /* Muted brown-orange */
+    color: white;
+}
+
+.grade-s {
+    background: linear-gradient(135deg, #3d9735 0%, #92b993 100%); /* Deep violet for distinction */
+    color: white;
+}
+
+
+.grade-f {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    color: white;
+}
+
+/* Graduation Status Styles */
+.graduation-content {
+    padding: 32px 24px;
+}
+
+.progress-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 32px;
+    margin-top: 24px;
+}
+
+.progress-item {
+    text-align: center;
+    background: white;
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.progress-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+.progress-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 20px;
+}
+
+.progress-circle {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 16px;
+}
+
+.progress-circle svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.progress-circle .progress-ring {
+    fill: none;
+    stroke-width: 8;
+    stroke-linecap: round;
+}
+
+.progress-circle .progress-bg {
+    stroke: #f1f5f9;
+}
+
+.progress-circle .progress-fill {
+    stroke: #ef4444;
+    stroke-dasharray: 283;
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 0.5s ease;
+}
+
+.progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ef4444;
+}
+
+/* Course Code Styling */
+.course-code {
+    font-family: 'Monaco', 'Menlo', monospace;
+    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #475569;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .course-management-container {
+        padding: 16px;
+        margin: 10px;
+    }
+
+    .section-headers {
+        padding: 16px 20px;
+        font-size: 1rem;
+    }
+
+    .course-table {
+        font-size: 0.85rem;
+    }
+
+    .course-table th,
+    .course-table td {
+        padding: 12px 8px;
+    }
+
+    .progress-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .progress-circle {
+        width: 100px;
+        height: 100px;
+    }
+
+    .progress-text {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .progress-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .course-table {
+        font-size: 0.8rem;
+    }
+
+    .status-badge {
+        padding: 4px 12px;
+        font-size: 0.75rem;
+    }
+
+    .grade-badge {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+    }
+}
+
+/* Animation for collapsible content */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.section-content {
+    
+    animation: slideDown 0.3s ease;
+}
+
+/* Hover effects for table rows */
+.course-table tbody tr {
+    transition: all 0.2s ease;
+}
+
+.course-table tbody tr:hover {
+    transform: translateX(4px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}

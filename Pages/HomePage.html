@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="../css_files/HomePage.css">
+    <link rel="stylesheet" href="../css_files/profile.css">
+    <link rel="stylesheet" href="../css_files/courses.css">
+    
+   
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="toggle">
+                <i class="fas fa-bars menu-toggle"></i>
+            </div>
+            <div class="logo-container">
+                <img src="../Logo.jpeg" alt="Company Logo" class="logo">
+            </div>
+            <ul class="sidebar-menu" style="overflow: visible;">
+                <li id="dashboardbtn" ><i class="fas fa-tachometer-alt"></i> Dashboard</li>
+                <li><i class="fas fa-cog"></i> Settings</li>
+                <li id="coursesbtn" ><i class="fas fa-book"></i> My Courses</li>
+                <li id="attendencebtn"><i class="fas fa-check-circle"></i> Attendence</li>
+                <li><i class="fas fa-tasks"></i> Assignments</li>
+                <li><i class="fas fa-exclamation-triangle"></i> Disciplinary</li>
+                <li><i class="fas fa-gift"></i> Offer</li>
+                <li id="profilebtn"><i class="fas fa-user"></i> Profile</li>
+                <li class="sig-out"><i class="fas fa-sign-out-alt"></i> Logout</li>
+            </ul>
+        </aside>
+        <div>
+            <header class="main-header">
+                <div class="header-left">
+                    <img src="../saveetha.png" alt="Logo" class="header-logo">
+                </div>
+                <div class="header-right">
+                    <span class="header-user">NAGIDI PHANINDRA</span>
+                    <i class="fas fa-bell"></i> 
+                    <i class="fas fa-user-circle"></i>
+                    <i class="fas fa-sign-out-alt sig-out"></i>
+                        
+                </div>
+             </header>
+        <div class="total-content">
+            <div id="dashboard-section"class="Dashboard-section"> 
+            <h1 class="Dashboard">Dashboard Overview</h1>
+            <div class="main-content" style="flex-direction: row;">
+
+                <div class="right-column" >
+                    <!-- Notification Card -->
+                    <div class="card notification" >
+                        <div class="card-header">
+                            <h2><i class="fas fa-bell"></i> Notification</h2>
+                            <div class="card-actions">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </div>
+                        </div>
+                        <div class="notification-list">
+                            <div class="notification-item">
+                                <div class="notification-avatar">
+                                    <img src="../Landing Page.jpeg" alt="Avatar">
+                                </div>
+                                <div class="notification-content">
+                                    <div class="notification-header">System Update <span>10m ago</span></div>
+                                    <div class="notification-message">A new system update is available. Please review the changes.</div>
+                                </div>
+                            </div>
+                            <div class="notification-item">
+                                <div class="notification-avatar">
+                                    <img src="../Landing Page.jpeg" alt="Avatar">
+                                </div>
+                                <div class="notification-content">
+                                    <div class="notification-header">Meeting Reminder <span>1h ago</span></div>
+                                    <div class="notification-message">Project Alpha meeting scheduled for 2 PM today.</div>
+                                </div>
+                            </div>
+                            <div class="notification-item">
+                                <div class="notification-avatar">
+                                    <img src="../Landing Page.jpeg" alt="Avatar">
+                                </div>
+                                <div class="notification-content">
+                                    <div class="notification-header">Document Shared <span>3h ago</span></div>
+                                    <div class="notification-message">Jane Doe shared 'Q3 Report.pdf' with you. <a href="#" class="notification-download"><i class="fas fa-download"></i> Download</a></div>
+                                </div>
+                            </div>
+                            <div class="notification-item">
+                                <div class="notification-avatar">
+                                    <img src="../Landing Page.jpeg" alt="Avatar">
+                                </div>
+                                <div class="notification-content">
+                                    <div class="notification-header">New Task Assigned <span>Yesterday</span></div>
+                                    <div class="notification-message">You have been assigned a new task: 'Prepare presentation slides'.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Page Content -->
+                <main class="page-content">
+                    <div class="content-row" >
+                            <div class="card holiday-events">
+                                <div class="card-header">
+                                    <h2><i class="fas fa-calendar-alt"></i> Holiday & Events Calendar</h2>
+                                    <div class="card-actions">
+                                        <i class="fas fa-ellipsis-h"></i>
+                                    </div>
+                                </div>
+                                <div class="calendar-controls">
+                                    <div class="calendar-nav">
+                                        <button>&lt;</button>
+                                        <button class="today">Today</button>
+                                        <button>&gt;</button>
+                                    </div>
+                                    <div class="calendar-title">July 2024</div>
+                                    <div class="calendar-view">
+                                        <button>Month</button>
+                                    </div>
+                                </div>
+                                <table class="calendar-grid">
+                                    <thead>
+                                        <tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Calendar days will be dynamically generated or statically placed here -->
+                                        <tr>
+                                        <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td>
+                                        </tr>
+                                        <tr>
+                                            <td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td>
+                                        </tr>
+                                        <tr>
+                                            <td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td>
+                                        </tr>
+                                        <tr>
+                                            <td>21</td><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td><td>27</td>
+                                        </tr>
+                                        <tr>
+                                            <td>28</td><td>29</td><td>30</td><td>31</td>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- Attendance Confirmation Card -->
+                            <div class="card attendance-confirmation">
+                                <div class="card-header">
+                                    <h2><i class="fas fa-user-check"></i> Attendance Confirmation</h2>
+                                    <div class="card-actions">
+                                        <i class="fas fa-ellipsis-h"></i>
+                                    </div>
+                                </div>
+                                <div class="attendance-content">
+                                    <div class="icon"><i class="fas fa-times-circle"></i></div>
+                                    <p>Attendance not confirmed for today.</p>
+                                </div>
+                            </div>
+                    </div>
+                </main>
+            </div>
+            </div>               
+
+            <!--Profile-->
+            <div id="profile-section"class="profile-container">
+        <!-- Header Section -->
+            <div class="profile-header">
+                <h1 class="profile-title">My Profile</h1>
+                <button class="edit-btn hover-element">Edit Profile</button>
+            </div>
+
+            <div class="profile-content">
+                <div class="profile-details">
+                    <div class="detail-group">
+                        <span class="detail-label">Name</span>
+                        <span class="detail-value">NAGIDI PHANINDRA</span>
+                    </div>
+                    <div class="detail-group">
+                        <span class="detail-label">Reg No.</span>
+                        <span class="detail-value">192224206</span>
+                    </div>
+                    <div class="detail-group">
+                        <span class="detail-label">Date of Birth</span>
+                        <span class="detail-value">28/05/2003</span>
+                    </div>
+                    <div class="detail-group">
+                        <span class="detail-label">Program</span>
+                        <span class="detail-value">ARTIFICIAL INTELLIGENCE AND DATA SCIENCES-1</span>
+                    </div>
+                    <div class="detail-group">
+                        <span class="detail-label">Email</span>
+                        <span class="detail-value">phanindranagidi@gmail.com</span>
+                    </div>
+                    <div class="detail-group">
+                        <span class="detail-label">Mobile No.</span>
+                        <span class="detail-value">9160753649</span>
+                    </div>
+                </div>
+
+                <div class="profile-image-container">
+                    <div class="profile-image hover-element"></div>
+                </div>
+
+                <div class="record-score-card">
+                    <span class="score-number">0</span>
+                    <div class="score-label">RECORD SCORE</div>
+                </div>
+            </div>
+
+        <!-- Student Record Overview -->
+        <section class="overview-section">
+            <h2 class="overview-title">Student Record Overview</h2>
+            <div class="stats-grid">
+                <div class="stat-card hover-element">
+                    <div class="stat-label">Awards</div>
+                    <div class="stat-value">0</div>
+                </div>
+                <div class="stat-card hover-element">
+                    <div class="stat-label">Conference Attended</div>
+                    <div class="stat-value">0</div>
+                </div>
+                <div class="stat-card hover-element">
+                    <div class="stat-label">Seminar(Attended)</div>
+                    <div class="stat-value">0</div>
+                </div>
+                <div class="stat-card hover-element">
+                    <div class="stat-label">Research Projects</div>
+                    <div class="stat-value">0</div>
+                </div>
+                <div class="stat-card hover-element">
+                    <div class="stat-label">Publication</div>
+                    <div class="stat-value">0</div>
+                </div>
+                <div class="stat-card hover-element">
+                    <div class="stat-label">Sponsor Project NIRF</div>
+                    <div class="stat-value">0</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Student Record Details -->
+        <section class="table-section">
+            <div class="section-header">
+                <h2 class="section-title">Student Record Details</h2>
+                <button class="add-record-btn hover-element">Add Record</button>
+            </div>
+
+          
+
+            <div class="table-container">
+                <table class="data-table">
+                    <thead class="table-header">
+                        <tr>
+                            <th>SNo.</th>
+                            <th>Details</th>
+                            <th>Type</th>
+                            <th>Dated On</th>
+                            <th>View File</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="5" class="no-data">
+                                📄 No data available in table
+                                <br>
+                                <small style="color: #9ca3af; margin-top: 8px; display: block;">Start by adding your first record above</small>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+            </div>
+
+            <!--Student Courses-->
+            <div  id="course-container" class="course-management">
+         <div class="completed-course">
+        <div class="courses">
+            <div class="section-headers">
+                <div>
+                    <span class="section-icon">✓</span>
+                    COMPLETED COURSES
+                </div>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="scrollable-wrapper">
+                    <table class="course-table" id="completed-courses-table">
+                        <thead>
+                            <tr>
+                                <th>Sno</th>
+                                <th>Course Code</th>
+                                <th>Course Name</th>
+                                <th>Grade</th>
+                                <th>Status</th>
+                                <th>Month&Year</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td><span class="course-code">SPIC1</span></td>
+                                <td>Project 1</td>
+                                <td><span class="grade-badge grade-b">B</span></td>
+                                <td><span class="status-badge status-pass">PASS</span></td>
+                                <td>April-2025</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td><span class="course-code">DSA06</span></td>
+                                <td>Data Handling and Visualization</td>
+                                <td><span class="grade-badge grade-a">A</span></td>
+                                <td><span class="status-badge status-pass">PASS</span></td>
+                                <td>February-2025</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td><span class="course-code">DSA04</span></td>
+                                <td>Fundamentals of Data Science</td>
+                                <td><span class="grade-badge grade-s">S</span></td>
+                                <td><span class="status-badge status-pass">PASS</span></td>
+                                <td>February-2025</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td><span class="course-code">CSA14</span></td>
+                                <td>Compiler design</td>
+                                <td><span class="grade-badge grade-b">B</span></td>
+                                <td><span class="status-badge status-pass">PASS</span></td>
+                                <td>February-2025</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td><span class="course-code">CSA47</span></td>
+                                <td>Deep Learning</td>
+                                <td><span class="grade-badge grade-b">B</span></td>
+                                <td><span class="status-badge status-pass">PASS</span></td>
+                                <td>November-2024</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div> <!-- end of .courses -->
+    </div> <!-- end of .completed-course -->
+
+    <!-- In Progress Courses Section -->
+    <div class="inprogress-courses">
+        <div class="section-headers">
+            <div>
+                <span class="section-icon">📚</span>
+                IN PROGRESS COURSES
+            </div>
+            <span class="toggle-icon">▼</span>
+        </div>
+        <div class="section-content">
+            <table class="course-table" id="inprogress-courses-table">
+                <thead>
+                    <tr>
+                        <th>Course Code</th>
+                        <th>Course Name</th>
+                        <th>Status</th>
+                        <th>Enroll On</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="course-code">MMA1217</span></td>
+                        <td>Mentor Mentee Meeting</td>
+                        <td><span class="status-badge status-inprogress">InProgress</span></td>
+                        <td>07/02/2025</td>
+                    </tr>
+                    <tr>
+                        <td><span class="course-code">SPIC4A04</span></td>
+                        <td>Core Project for Big Data and Network Security</td>
+                        <td><span class="status-badge status-inprogress">InProgress</span></td>
+                        <td>03/03/2025</td>
+                    </tr>
+                    <tr>
+                        <td><span class="course-code">SPIC781</span></td>
+                        <td>Product Design & Development for Sustainability</td>
+                        <td><span class="status-badge status-inprogress">InProgress</span></td>
+                        <td>20/01/2025</td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+            </div>
+
+            <!--Attendence section-->
+            <div class="attendence" id="attendence-section"> Its working</div>
+        </div>
+        
+    <!-- Optional: Add JS file link if needed -->
+     <script type="module" src="../js_files/HomePage.js"></script> 
+</body>
+
+</html>
