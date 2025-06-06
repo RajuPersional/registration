@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="static/css_files/HomePage.css">
+    
+   
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="toggle">
+                <i class="fas fa-bars menu-toggle"></i>
+            </div>
+            <div class="logo-container">
+                <img src="../Logo.jpeg" alt="Company Logo" class="logo">
+            </div>
+            <ul class="sidebar-menu" style="overflow: visible;">
+                <li onclick="loadPage('/dashboard')" id="dashboardbtn" ><i class="fas fa-tachometer-alt"></i> Dashboard</li>
+                <li><i class="fas fa-cog"></i> Settings</li>
+                <li onclick="loadPage('/courses')" id="coursesbtn" ><i class="fas fa-book"></i> My Courses</li>
+                <li id="attendencebtn"><i class="fas fa-check-circle"></i> Attendence</li>
+                <li><i class="fas fa-tasks"></i> Assignments</li>
+                <li><i class="fas fa-exclamation-triangle"></i> Disciplinary</li>
+                <li><i class="fas fa-gift"></i> Offer</li>
+                <li onclick="loadPage('/profile')"><i class="fas fa-user"></i> Profile</li>
+                <li class="sig-out"><i class="fas fa-sign-out-alt"></i> Logout</li>
+            </ul>
+        </aside>
+        <div>
+            <header class="main-header">
+                <div class="header-left">
+                    <img src="../saveetha.png" alt="Logo" class="header-logo">
+                </div>
+                <div class="header-right">
+                    <span class="header-user">NAGIDI PHANINDRA</span>
+                    <i class="fas fa-bell"></i> 
+                    <i class="fas fa-user-circle"></i>
+                    <i class="fas fa-sign-out-alt sig-out"></i>
+                        
+                </div>
+             </header>
+        <div id ="total-container" class="total-content">
+            <div id ="total-container" class="total-content">
+            
+        
+            </div>
+
+        
+        </div>
+        
+    <!-- Optional: Add JS file link if needed -->
+    <script src="/static/js_files/HomePage.js"></script>
+</body>
+
+</html>

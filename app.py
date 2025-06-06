@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify , render_template
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -24,7 +24,24 @@ def login():
 
 @app.route('/')
 def home():
-    return 'Server is running!'
+     return render_template('Homepage.html')
+
+
+@app.route('/course')
+def attendance():
+    return render_template('course.html')
+
+@app.route('/profile')
+def profile():
+    return render_template('profile.html')
+
+@app.route('/dashboard')
+def assessment():
+    return render_template('dashboard.html')
+
+@app.route('/courses')
+def courses():
+    return render_template('course.html')    
 
 if __name__ == '__main__':
     app.run(debug=True)

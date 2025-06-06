@@ -1,4 +1,17 @@
-import { displaysection } from "./display.js"
+
+function loadPage(url) {
+    fetch(url)
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('total-container').innerHTML = html;
+      })
+      .catch(error => {
+        console.error('Error loading page:', error);
+      });
+}
+
+
+window.loadPage = loadPage;
 
 document.addEventListener("DOMContentLoaded", function () {
     
@@ -24,11 +37,8 @@ document.addEventListener("DOMContentLoaded", function () {
             window.location.href = 'Bricks.html';
         });
     });
+
+    
 });
 
 
-
-
-window.addEventListener("DOMContentLoaded", () => {
-    displaysection(); 
-});
