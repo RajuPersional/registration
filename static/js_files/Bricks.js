@@ -49,7 +49,7 @@ function login(){
                     const data = await res.json();
     
                     if (data.status === 'success') {
-                        window.location.href = 'HomePage.html';  // Redirect on success
+                        window.location.href = '/HomePage';  // Redirect on success
                     } else {
                         alert(data.message || 'Login failed');
                     }

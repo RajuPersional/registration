@@ -24,12 +24,13 @@ def login():
 
 @app.route('/')
 def home():
-     return render_template('Homepage.html')
+     return render_template('Bricks.html')
 
 
-@app.route('/course')
-def attendance():
-    return render_template('course.html')
+@app.route('/HomePage')
+def HomePage():
+    return render_template('HomePage.html')     
+
 
 @app.route('/profile')
 def profile():
