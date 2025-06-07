@@ -50,6 +50,7 @@ function login(){
     
                     if (data.status === 'success') {
                         window.location.href = '/HomePage';  // Redirect on success
+                        
                     } else {
                         alert(data.message || 'Login failed');
                     }

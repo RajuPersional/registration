@@ -14,7 +14,8 @@ function loadPage(url) {
 window.loadPage = loadPage;
 
 document.addEventListener("DOMContentLoaded", function () {
-    
+
+     loadPage('/dashboard');
     const today = new Date();
 
     const currentDate = today.getDate();
@@ -34,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const logoutIcons = document.querySelectorAll('.sig-out');
     logoutIcons.forEach(icon => {
         icon.addEventListener('click', () => {
-            window.location.href = 'Bricks.html';
+            window.location.href = '/';
         });
     });
 
