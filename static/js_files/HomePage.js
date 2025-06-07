@@ -1,5 +1,6 @@
 
 function loadPage(url) {
+  
     fetch(url)
       .then(res => res.text())
       .then(html => {
@@ -15,22 +16,7 @@ window.loadPage = loadPage;
 
 document.addEventListener("DOMContentLoaded", function () {
 
-     loadPage('/dashboard');
-    const today = new Date();
-
-    const currentDate = today.getDate();
-    const currentMonth = today.toLocaleString('default', { month: 'long' });
-    const currentyear = today.getFullYear();
-
-    document.querySelector('.calendar-title').innerHTML = `${currentDate} ${currentMonth} ${currentyear}`;
-
-    const days = document.querySelectorAll('td');
-    days.forEach(day => {
-        if (parseInt(day.textContent) === currentDate) {
-            day.classList.add('today');
-        }
-    });
-
+    loadPage('/dashboard');
     
     const logoutIcons = document.querySelectorAll('.sig-out');
     logoutIcons.forEach(icon => {
@@ -39,7 +25,14 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    
+    // Modify click handlers to prevent default behavior
+    document.querySelectorAll('.sidebar-menu li').forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent page reload
+            const url = this.getAttribute('data-url');
+            loadPage(url);
+        });
+    });
 });
 
 

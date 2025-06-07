@@ -36,6 +36,10 @@ def HomePage():
 def profile():
     return render_template('profile.html')
 
+@app.route('/Financial')
+def Financial():
+    return render_template('Financial.html')
+
 @app.route('/dashboard')
 def assessment():
     return render_template('dashboard.html')

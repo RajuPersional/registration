@@ -38,12 +38,12 @@
 
 /* Completed Courses Header */
 .completed-course .section-headers{
-    background: linear-gradient(135deg, #7cc79a 0%, #6ca983 50%);
+    background: green;
 }
 
 /* In Progress Courses Header - Slate Blue (Active) */
 .inprogress-courses .section-headers {
-    background: linear-gradient(135deg, #7188c8 0%, #1d4ed8 50%);
+    background: rgb(4, 4, 70);
 }
 
 .section-icon {
@@ -149,35 +149,11 @@
     padding: 8px 12px;
     border-radius: 15px;
     font-weight: 700;
-    font-size: 0.9rem;
+    font-size: 1.3rem;
     text-align: center;
     min-width: 20px;
 }
-.grade-a {
-    background: linear-gradient(135deg, #18676f 0%, #0e3846 100%); /* Deep academic green */
-    color: white;
-}
 
-.grade-b {
-    background: linear-gradient(135deg, #253c88 0%, #6680c9 90%); /* Royal blue */
-    color: white;
-}
-
-.grade-c {
-    background: linear-gradient(135deg, #8d502c 0%, #a9826c 90%); /* Muted brown-orange */
-    color: white;
-}
-
-.grade-s {
-    background: linear-gradient(135deg, #3d9735 0%, #92b993 100%); /* Deep violet for distinction */
-    color: white;
-}
-
-
-.grade-f {
-    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-    color: white;
-}
 
 /* Graduation Status Styles */
 .graduation-content {
