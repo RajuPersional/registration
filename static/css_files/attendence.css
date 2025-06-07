@@ -1,65 +1,192 @@
-.attendence-container {
-    margin-top: 40px;
+.Attendence-container {
+  min-width: 1360px;
+  margin: 20px ;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.attendance-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: white;
+  margin-right: 30px;
+
+}
+
+.attendance-table th {
+  background-color: #f8f9fa;
+  color: #495057;
+  font-weight: 600;
+  text-align: left;
+  padding: 12px 8px;
+  border-bottom: 2px solid #dee2e6;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+}
+
+.attendance-table th:hover {
+  background-color: #e9ecef;
+}
+
+.sortable {
+  position: relative;
+}
+
+.sort-icon {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 10px;
+  color: #6c757d;
+  opacity: 0.7;
+}
+
+.attendance-table td {
+  padding: 12px 8px;
+  border-bottom: 1px solid #dee2e6;
+  vertical-align: middle;
+}
+
+.attendance-table tbody tr {
+  transition: background-color 0.2s;
+}
+
+.attendance-table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.attendance-table tbody tr:nth-child(even) {
+  background-color: #fdfdfd;
+}
+
+.attendance-table tbody tr:nth-child(even):hover {
+  background-color: #f1f3f4;
+}
+
+.percentage {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 12px;
+  display: inline-block;
+  min-width: 45px;
+  text-align: center;
+}
+
+.percentage.excellent {
+  background-color: #007bff;
+  color: white;
+}
+
+.percentage.good {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+.percentage.poor {
+  background-color: #dc3545;
+  color: white;
+}
+
+.details-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.details-btn:hover {
+  background-color: #c82333;
+}
+
+.details-btn:active {
+  transform: translateY(1px);
+}
+
+.pagination-info {
+  margin-top: 15px;
+  color: #6c757d;
+  font-size: 14px;
+  padding: 10px 0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+    margin: 10px;
+  }
+  
+  .attendance-table {
+    font-size: 12px;
+  }
+  
+  .attendance-table th,
+  .attendance-table td {
+    padding: 8px 4px;
+  }
+  
+  .attendance-table th:nth-child(3),
+  .attendance-table td:nth-child(3) {
+    max-width: 200px;
+    word-wrap: break-word;
+  }
+}
+
+@media (max-width: 480px) {
+  .attendance-table {
+    display: block;
     overflow-x: auto;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-}
-
-.styled-course-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-family: 'Segoe UI', sans-serif;
-}
-
-.styled-course-table th, .styled-course-table td {
-    padding: 12px 16px;
-    text-align: left;
-    font-size: 14px;
-    border-bottom: 1px solid #e2e8f0;
-}
-
-.styled-course-table th {
-    background-color: #f1f5f9;
-    text-transform: uppercase;
-    font-weight: 600;
-}
-
-.styled-course-table tr:nth-child(even) {
-    background-color: #fafafa;
-}
-
-.badge {
-    display: inline-block;
-    padding: 4px 10px;
+    white-space: nowrap;
+  }
+  
+  .attendance-table thead,
+  .attendance-table tbody,
+  .attendance-table th,
+  .attendance-table td,
+  .attendance-table tr {
+    display: block;
+  }
+  
+  .attendance-table thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  
+  .attendance-table tr {
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    padding: 10px;
     border-radius: 4px;
-    color: white;
-    font-weight: 600;
-    font-size: 13px;
-}
-
-.badge.yellow {
-    background-color: #eab308;
-}
-
-.badge.red {
-    background-color: #ef4444;
-}
-
-.badge.blue {
-    background-color: #3b82f6;
-}
-
-.view-button {
-    background-color: #f87171;
-    color: white;
-    padding: 6px 12px;
+    background: white;
+  }
+  
+  .attendance-table td {
     border: none;
-    border-radius: 4px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.view-button:hover {
-    background-color: #ef4444;
+    position: relative;
+    padding-left: 50%;
+    text-align: right;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .attendance-table td:before {
+    content: attr(data-label);
+    position: absolute;
+    left: 6px;
+    width: 45%;
+    text-align: left;
+    font-weight: bold;
+    color: #333;
+  }
 }

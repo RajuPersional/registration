@@ -44,6 +44,11 @@ def Financial():
 def assessment():
     return render_template('dashboard.html')
 
+
+@app.route('/attendence')
+def Attendence():
+    return render_template('Attendence.html') 
+
 @app.route('/courses')
 def courses():
     return render_template('course.html')    
