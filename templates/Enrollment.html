@@ -1,0 +1,38 @@
+
+    <div class="enrollment-container">
+        <header class="header">
+            <h1 class="title">Course Enrollment Portal</h1>
+        </header>
+
+        <section class="enrollment-section">
+            <div class="slot-selection">
+                <label for="slot-select" class="slot-label">Select Slot:</label>
+                <select id="slot-select" class="slot-dropdown">
+                    <option value="slot-a">Slot A</option>
+                    <option value="slot-b">Slot B</option>
+                    <option value="slot-c">Slot C</option>
+                    <option value="slot-d">Slot D</option>
+                </select>
+            </div>
+        </section>
+
+        <section class="course-section">
+            <div class="section-header">
+                <div class="section-title">
+                    Courses Available
+                </div>
+                <button id="toggle-courses" class="toggle-btn">&#9660;</button>
+            </div>
+
+            <div id="courses-container" class="courses-container courses-grid">
+                <!-- Course cards will be inserted here dynamically -->
+            </div>
+        </section>
+
+        <section class="enrollment-actions">
+            <button id="enroll-btn" class="btn btn-primary">Enroll in Selected Course</button>
+            <button id="save-draft-btn" class="btn btn-secondary">Save as Draft</button>
+        </section>
+    </div>
+
+ 

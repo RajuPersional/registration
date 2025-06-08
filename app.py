@@ -28,28 +28,34 @@ def home():
 
 
 @app.route('/HomePage')
-def HomePage():
+def homepage():
     return render_template('HomePage.html')     
 
 
-@app.route('/profile')
+@app.route('/Profile')
 def profile():
     return render_template('profile.html')
 
 @app.route('/Financial')
-def Financial():
+def financial():
     return render_template('Financial.html')
 
-@app.route('/dashboard')
+
+@app.route('/Enrollment')
+def enrollment():
+    return render_template('Enrollment.html')
+
+
+@app.route('/Dashboard')
 def assessment():
     return render_template('dashboard.html')
 
 
-@app.route('/attendence')
-def Attendence():
+@app.route('/Attendence')
+def attendence():
     return render_template('Attendence.html') 
 
-@app.route('/courses')
+@app.route('/Courses')
 def courses():
     return render_template('course.html')    
 

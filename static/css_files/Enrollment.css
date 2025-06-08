@@ -1,0 +1,264 @@
+.enrollment-container {
+    max-width: 1400px;
+    padding: 20px;
+    margin: auto;
+    font-family: Arial, sans-serif;
+}
+
+.header {
+    margin-bottom: 30px;
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: 400;
+    color: #666;
+    text-align: left;
+}
+
+.enrollment-section {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 15px 0;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.slot-selection {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.slot-label {
+    font-weight: 500;
+    color: #e74c3c;
+    font-size: 1rem;
+}
+
+.slot-dropdown {
+    padding: 8px 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    background: white;
+    cursor: pointer;
+    min-width: 120px;
+}
+
+.course-section {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.section-header {
+    background: #6c7b95;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.section-title {
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.toggle-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    padding: 5px;
+}
+
+.toggle-btn.rotated {
+    transform: rotate(180deg);
+}
+
+.courses-container {
+    padding: 20px;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+.courses-container.collapsed {
+    max-height: 0;
+    padding: 0 20px;
+    overflow: hidden;
+}
+
+.courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 12px;
+}
+
+.course-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    background: #fafafa;
+}
+
+.course-card:hover {
+    border-color: #007bff;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.1);
+}
+
+.course-card.selected {
+    border-color: #007bff;
+    background: #e8f4fd;
+}
+
+.course-content {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.course-radio {
+    margin-top: 6px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.course-info {
+    flex: 1;
+}
+
+.course-title {
+    font-size: 0.9rem;
+    color: #333;
+    font-weight: 400;
+    line-height: 1.4;
+    margin: 0;
+}
+
+.seat-count {
+    background: #17a2b8;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-weight: 500;
+    min-width: 36px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    margin-left: 15px;
+    flex-shrink: 0;
+}
+
+.seat-count.zero {
+    background: #6c757d;
+}
+
+.enrollment-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-start;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 150px;
+}
+
+.btn-primary {
+    background: #007bff;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #0056b3;
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #545b62;
+}
+
+@media (max-width: 768px) {
+    .enrollment-section {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .courses-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .enrollment-actions {
+        width: 100%;
+    }
+
+    .btn {
+        flex: 1;
+        min-width: unset;
+    }
+}
+
+/* Notification styles handled in JS but could add here for better control */
+#notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    max-width: 400px;
+}
+
+.notification {
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    font-weight: 500;
+    cursor: pointer;
+    animation: slideInRight 0.3s ease-out;
+}
+
+.notification.success {
+    background: linear-gradient(135deg, #27ae60, #2ecc71);
+}
+
+.notification.error {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+@keyframes slideOutRight {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(100%); opacity: 0; }
+}
