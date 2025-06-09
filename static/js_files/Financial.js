@@ -73,8 +73,10 @@ function updateSortIcons(table, activeHeader, direction) {
     
     // Set active icon
     const activeIcon = activeHeader.querySelector('.sort-icon');
-    activeIcon.textContent = direction === 'asc' ? '▲' : '▼';
-    activeIcon.style.opacity = '1';
+    if (activeIcon) {
+        activeIcon.textContent = direction === 'asc' ? '▲' : '▼';
+        activeIcon.style.opacity = '1';
+    }
 }
 
 // Parse date string to Date object
@@ -92,18 +94,30 @@ function handlePayment(feeType, amount) {
     const modal = document.getElementById('paymentModal');
     const details = document.getElementById('paymentDetails');
     
-    details.innerHTML = `
-        <strong>Fee Type:</strong> ${feeType}<br>
-        <strong>Amount:</strong> ₹${amount.toLocaleString()}<br>
-        <strong>Payment Method:</strong> Online
-    `;
+    // Check if modal exists
+    if (!modal) {
+        console.error('Payment modal not found');
+        showNotification('Payment modal not available', 'error');
+        return;
+    }
+    
+    if (details) {
+        details.innerHTML = `
+            <strong>Fee Type:</strong> ${feeType}<br>
+            <strong>Amount:</strong> ₹${amount.toLocaleString()}<br>
+            <strong>Payment Method:</strong> Online
+        `;
+    }
     
     modal.style.display = 'block';
     
     // Add animation
     setTimeout(() => {
-        modal.querySelector('.modal-content').style.transform = 'scale(1)';
-        modal.querySelector('.modal-content').style.opacity = '1';
+        const modalContent = modal.querySelector('.modal-content');
+        if (modalContent) {
+            modalContent.style.transform = 'scale(1)';
+            modalContent.style.opacity = '1';
+        }
     }, 10);
 }
 
@@ -141,7 +155,18 @@ function confirmPayment() {
 
 // Add payment to history table
 function addToPaymentHistory(feeType, amount, reference, date) {
-    const historyTable = document.getElementById('historyTable').querySelector('tbody');
+    const historyTable = document.getElementById('historyTable');
+    if (!historyTable) {
+        console.error('History table not found');
+        return;
+    }
+    
+    const tbody = historyTable.querySelector('tbody');
+    if (!tbody) {
+        console.error('History table tbody not found');
+        return;
+    }
+    
     const newRow = document.createElement('tr');
     
     newRow.innerHTML = `
@@ -154,7 +179,7 @@ function addToPaymentHistory(feeType, amount, reference, date) {
     `;
     
     // Add to top of table
-    historyTable.insertBefore(newRow, historyTable.firstChild);
+    tbody.insertBefore(newRow, tbody.firstChild);
     
     // Add highlight animation
     newRow.style.backgroundColor = '#d4edda';
@@ -166,8 +191,19 @@ function addToPaymentHistory(feeType, amount, reference, date) {
 
 // Remove from due list
 function removeFromDueList(feeType) {
-    const dueTable = document.getElementById('dueTable').querySelector('tbody');
-    const rows = dueTable.querySelectorAll('tr');
+    const dueTable = document.getElementById('dueTable');
+    if (!dueTable) {
+        console.error('Due table not found');
+        return;
+    }
+    
+    const tbody = dueTable.querySelector('tbody');
+    if (!tbody) {
+        console.error('Due table tbody not found');
+        return;
+    }
+    
+    const rows = tbody.querySelectorAll('tr');
     
     rows.forEach(row => {
         if (row.cells[0].textContent.trim() === feeType) {
@@ -182,8 +218,19 @@ function removeFromDueList(feeType) {
 
 // Update total amount
 function updateTotalAmount() {
-    const dueTable = document.getElementById('dueTable').querySelector('tbody');
-    const rows = dueTable.querySelectorAll('tr');
+    const dueTable = document.getElementById('dueTable');
+    if (!dueTable) {
+        console.error('Due table not found');
+        return;
+    }
+    
+    const tbody = dueTable.querySelector('tbody');
+    if (!tbody) {
+        console.error('Due table tbody not found');
+        return;
+    }
+    
+    const rows = tbody.querySelectorAll('tr');
     let total = 0;
     
     rows.forEach(row => {
@@ -191,7 +238,10 @@ function updateTotalAmount() {
         total += amount;
     });
     
-    document.getElementById('totalAmount').textContent = total.toLocaleString();
+    const totalAmountElement = document.getElementById('totalAmount');
+    if (totalAmountElement) {
+        totalAmountElement.textContent = total.toLocaleString();
+    }
 }
 
 // Print receipt functionality
@@ -235,10 +285,21 @@ function printReceipt(reference, feeType, amount) {
 // Initialize modal functionality
 function initializeModal() {
     const modal = document.getElementById('paymentModal');
+    
+    // Check if modal exists before trying to access its properties
+    if (!modal) {
+        console.warn('Payment modal not found in DOM');
+        return;
+    }
+    
     const closeBtn = modal.querySelector('.close');
     
-    closeBtn.addEventListener('click', closeModal);
+    // Add event listener only if close button exists
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeModal);
+    }
     
+    // Add window click event listener
     window.addEventListener('click', function(event) {
         if (event.target === modal) {
             closeModal();
@@ -249,15 +310,25 @@ function initializeModal() {
 // Close modal
 function closeModal() {
     const modal = document.getElementById('paymentModal');
+    
+    if (!modal) {
+        console.error('Payment modal not found');
+        return;
+    }
+    
     const modalContent = modal.querySelector('.modal-content');
     
-    modalContent.style.transform = 'scale(0.7)';
-    modalContent.style.opacity = '0';
+    if (modalContent) {
+        modalContent.style.transform = 'scale(0.7)';
+        modalContent.style.opacity = '0';
+    }
     
     setTimeout(() => {
         modal.style.display = 'none';
-        modalContent.style.transform = 'scale(0.7)';
-        modalContent.style.opacity = '0';
+        if (modalContent) {
+            modalContent.style.transform = 'scale(0.7)';
+            modalContent.style.opacity = '0';
+        }
     }, 200);
 }
 
@@ -266,6 +337,18 @@ function showNotification(message, type = 'info') {
     const notification = document.createElement('div');
     notification.className = `notification ${type}`;
     notification.textContent = message;
+    
+    let backgroundColor;
+    switch(type) {
+        case 'success':
+            backgroundColor = '#2ecc71';
+            break;
+        case 'error':
+            backgroundColor = '#e74c3c';
+            break;
+        default:
+            backgroundColor = '#3498db';
+    }
     
     notification.style.cssText = `
         position: fixed;
@@ -278,7 +361,7 @@ function showNotification(message, type = 'info') {
         z-index: 10000;
         transform: translateX(100%);
         transition: transform 0.3s ease;
-        ${type === 'success' ? 'background-color: #2ecc71;' : 'background-color: #3498db;'}
+        background-color: ${backgroundColor};
     `;
     
     document.body.appendChild(notification);
@@ -292,14 +375,27 @@ function showNotification(message, type = 'info') {
     setTimeout(() => {
         notification.style.transform = 'translateX(100%)';
         setTimeout(() => {
-            document.body.removeChild(notification);
+            if (notification.parentNode) {
+                document.body.removeChild(notification);
+            }
         }, 300);
     }, 3000);
 }
 
 // Add some sample data manipulation functions
 function addSampleDue() {
-    const dueTable = document.getElementById('dueTable').querySelector('tbody');
+    const dueTable = document.getElementById('dueTable');
+    if (!dueTable) {
+        console.error('Due table not found');
+        return;
+    }
+    
+    const tbody = dueTable.querySelector('tbody');
+    if (!tbody) {
+        console.error('Due table tbody not found');
+        return;
+    }
+    
     const newRow = document.createElement('tr');
     
     newRow.innerHTML = `
@@ -309,6 +405,6 @@ function addSampleDue() {
         <td><button class="pay-now-btn" onclick="handlePayment('LIBRARY FEE', 500)">Pay Now</button></td>
     `;
     
-    dueTable.appendChild(newRow);
+    tbody.appendChild(newRow);
     updateTotalAmount();
 }

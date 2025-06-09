@@ -1,157 +1,134 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Course data for different slots
-    const coursesBySlot = {
+(function () {
+    const courseData = {
         'slot-a': [
-            { code: 'ECA0307', title: 'Signals and Systems for Speech Recognition', instructor: 'Dr.Vidhya', seats: 18 },
-            { code: 'CSA0834', title: 'Python Programming for Polymorphism', instructor: 'Dr.G.Charlyn Pushpa Latha', seats: 12 },
-            { code: 'CSA1219', title: 'Computer Architecture for Parallel Processing', instructor: 'Dr Vignesh', seats: 8 },
-            { code: 'BTA3802', title: 'Nutrition and Dietetics for Antinutritional Studies', instructor: 'Dr. I PRAVEEN KUMAR', seats: 15 },
-            { code: 'ACA1010', title: 'Thermodynamics, Refrigeration and Air conditioning for Agricultural Products', instructor: 'Dr. KALIL RAHIMAN M', seats: 24 },
-            { code: 'UBA1057', title: 'Numerical Methods and Its Influence in Computer Science Engineering', instructor: 'Maragathavalli', seats: 6 },
-            { code: 'ECA1418', title: 'Embedded Systems for IoT', instructor: 'KEERTHI KASSAN V', seats: 0 },
-            { code: 'CSA0230', title: 'C Programming for Registers', instructor: 'KESAVAN', seats: 0 }
+            { title: "MAT1001-Advanced Mathematics for Engineers-Dr. Rajesh Kumar", badge: "15" },
+            { title: "PHY2001-Quantum Physics Applications-Dr. Priya Sharma", badge: "8" },
+            { title: "CHE2001-Chemical Engineering Applications-Dr. Sumanth Reddy", badge: "12" },
         ],
         'slot-b': [
-            { code: 'CSA1219', title: 'Computer Architecture for Parallel Processing', instructor: 'Dr Vignesh', seats: 22 },
-            { code: 'ECA1418', title: 'Embedded Systems for IoT', instructor: 'KEERTHI KASSAN V', seats: 16 },
-            { code: 'BTA3802', title: 'Nutrition and Dietetics for Antinutritional Studies', instructor: 'Dr. I PRAVEEN KUMAR', seats: 0 },
-            { code: 'UBA1057', title: 'Numerical Methods and Its Influence in Computer Science Engineering', instructor: 'Maragathavalli', seats: 20 },
-            { code: 'ECA0307', title: 'Signals and Systems for Speech Recognition', instructor: 'Dr.Vidhya', seats: 5 },
-            { code: 'CSA0230', title: 'C Programming for Registers', instructor: 'KESAVAN', seats: 14 },
-            { code: 'CSA0834', title: 'Python Programming for Polymorphism', instructor: 'Dr.G.Charlyn Pushpa Latha', seats: 0 },
-            { code: 'ACA1010', title: 'Thermodynamics, Refrigeration and Air conditioning for Agricultural Products', instructor: 'Dr. KALIL RAHIMAN M', seats: 11 }
+            { title: "BIO1001-Biotechnology Fundamentals-Dr. Kavya Nair", badge: "25" },
+            { title: "EEE2001-Power Systems Analysis-Prof. Ramesh Gupta", badge: "18" },
         ],
         'slot-c': [
-            { code: 'UBA1057', title: 'Numerical Methods and Its Influence in Computer Science Engineering', instructor: 'Maragathavalli', seats: 18 },
-            { code: 'CSA0230', title: 'C Programming for Registers', instructor: 'KESAVAN', seats: 25 },
-            { code: 'ACA1010', title: 'Thermodynamics, Refrigeration and Air conditioning for Agricultural Products', instructor: 'Dr. KALIL RAHIMAN M', seats: 0 },
-            { code: 'ECA0307', title: 'Signals and Systems for Speech Recognition', instructor: 'Dr.Vidhya', seats: 9 },
-            { code: 'BTA3802', title: 'Nutrition and Dietetics for Antinutritional Studies', instructor: 'Dr. I PRAVEEN KUMAR', seats: 13 },
-            { code: 'ECA1418', title: 'Embedded Systems for IoT', instructor: 'KEERTHI KASSAN V', seats: 7 },
-            { code: 'CSA1219', title: 'Computer Architecture for Parallel Processing', instructor: 'Dr Vignesh', seats: 0 },
-            { code: 'CSA0834', title: 'Python Programming for Polymorphism', instructor: 'Dr.G.Charlyn Pushpa Latha', seats: 21 }
+            { title: "AER1001-Aerospace Dynamics-Dr. Vikram Joshi", badge: "10" },
+            { title: "MAR2001-Marine Engineering-Prof. Lata Desai", badge: "28" },
         ],
         'slot-d': [
-            { code: 'ECA0307', title: 'Signals and Systems for Speech Recognition', instructor: 'Dr.Vidhya', seats: 18 },
-            { code: 'ECA1418', title: 'Embedded Systems for IoT', instructor: 'KEERTHI KASSAN V', seats: 0 },
-            { code: 'CSA0834', title: 'Python Programming for Polymorphism', instructor: 'Dr.G.Charlyn Pushpa Latha', seats: 0 },
-            { code: 'CSA1219', title: 'Computer Architecture for Parallel Processing', instructor: 'Dr Vignesh', seats: 0 },
-            { code: 'CSA0230', title: 'C Programming for Registers', instructor: 'KESAVAN', seats: 0 },
-            { code: 'BTA3802', title: 'Nutrition and Dietetics for Antinutritional Studies', instructor: 'Dr. I PRAVEEN KUMAR', seats: 0 },
-            { code: 'ACA1010', title: 'Thermodynamics, Refrigeration and Air conditioning for Agricultural Products', instructor: 'Dr. KALIL RAHIMAN M', seats: 24 },
-            { code: 'UBA1057', title: 'Numerical Methods and Its Influence in Computer Science Engineering', instructor: 'Maragathavalli', seats: 0 }
+            { title: "ECA0307-Signals and Systems for Speech Recognition-Dr.Vidhya", badge: "18" },
+            { title: "ECA1418-Embedded Systems for IoT-KEERTHI KASSAN V", badge: "0" },
+            { title: "CSA0834-Python Programming for Polymorphism-Dr.G.Charlyn Pushpa Latha", badge: "0" },
         ]
     };
 
-    // Notification system
-    function createNotificationContainer() {
-        if (document.getElementById('notification-container')) {
-            return document.getElementById('notification-container');
+    function showToast(message) {
+        const toastContainer = document.getElementById('toastContainer');
+        if (!toastContainer) {
+            alert(message); // fallback
+            return;
         }
-        
-        const container = document.createElement('div');
-        container.id = 'notification-container';
-        document.body.appendChild(container);
-        return container;
-    }
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.textContent = message;
+        toastContainer.appendChild(toast);
 
-    function showNotification(message, type = 'success') {
-        const container = createNotificationContainer();
-        const notification = document.createElement('div');
-        notification.className = 'notification ' + (type === 'success' ? 'success' : 'error');
-        notification.textContent = message;
-
-        container.appendChild(notification);
-
-        // Animate in (handled by CSS animation)
-        // Auto remove after 4 seconds
+        setTimeout(() => toast.classList.add('show'), 100);
         setTimeout(() => {
-            notification.style.animation = 'slideOutRight 0.3s ease-out';
+            toast.classList.remove('show');
+            toast.classList.add('hide');
             setTimeout(() => {
-                if (notification.parentNode) {
-                    notification.parentNode.removeChild(notification);
-                }
+                if (toastContainer.contains(toast)) toastContainer.removeChild(toast);
             }, 300);
-        }, 4000);
-
-        // Click to remove immediately
-        notification.addEventListener('click', () => {
-            notification.style.animation = 'slideOutRight 0.3s ease-out';
-            setTimeout(() => {
-                if (notification.parentNode) {
-                    notification.parentNode.removeChild(notification);
-                }
-            }, 300);
-        });
+        }, 3000);
     }
 
-    // Update courses for selected slot
-    function updateCoursesForSlot(slotValue) {
-        const courses = coursesBySlot[slotValue] || [];
-        const container = document.getElementById('courses-container');
-        container.innerHTML = ''; // Clear previous cards
-    
-        courses.forEach(course => {
-            const card = document.createElement('div');
-            card.className = 'course-card';
-
-            card.innerHTML = `
-                <div class="course-content">
-                    <input type="radio" name="course" class="course-radio" value="${course.code.toLowerCase()}">
-                    <div class="course-info">
-                        <p class="course-title">${course.code} - ${course.title} - ${course.instructor}</p>
-                    </div>
-                    <div class="seat-count ${course.seats === 0 ? 'zero' : ''}">${course.seats}</div>
-                </div>
-            `;
-
-            // Clicking anywhere on card checks radio
-            card.addEventListener('click', (e) => {
-                if (e.target.type !== 'radio') {
-                    card.querySelector('.course-radio').checked = true;
-                    updateSelectedCourse(card);
-                }
-            });
-
-            container.appendChild(card);
-        });
-
-        // Add change listeners to radios
-        document.querySelectorAll('.course-radio').forEach(radio => {
-            radio.addEventListener('change', function () {
-                updateSelectedCourse(this.closest('.course-card'));
-            });
-        });
-
-        // Clear any previous selection
-        updateSelectedCourse(null);
-    }
-
-    // Toggle course section visibility
-    const toggleBtn = document.getElementById('toggle-courses');
-    const coursesContainer = document.getElementById('courses-container');
-
-    toggleBtn.addEventListener('click', () => {
-        coursesContainer.classList.toggle('collapsed');
-        toggleBtn.classList.toggle('rotated');
-    });
-
-    // Selected course card update
-    function updateSelectedCourse(selectedCard) {
-        document.querySelectorAll('.course-card').forEach(card => {
-            card.classList.remove('selected');
-        });
-        if (selectedCard) {
-            selectedCard.classList.add('selected');
+    function loadCourses(slot) {
+        const courseGrid = document.getElementById('courseGrid');
+        if (!courseGrid) {
+            console.error('Element with id="courseGrid" not found');
+            return;
         }
+
+        const courses = courseData[slot] ;
+        if (!courses) {
+            console.error(`No courses found for slot: ${slot}`);
+            return;
+        }
+        courseGrid.innerHTML = '';
+
+        courses.forEach((course, idx) => {
+            const courseCard = document.createElement('div');
+            courseCard.className = 'course-card';
+            courseCard.innerHTML = `
+                <div class="radio-option">
+                    <input type="radio" name="course" id="course${idx}" value="${course.title}">
+                    <label for="course${idx}">${course.title}</label>
+                </div>
+                <div class="course-badge">${course.badge}</div>
+            `;
+            courseGrid.appendChild(courseCard);
+        });
+
+        attachRadioListeners();
     }
 
-    // Slot select change
-    const slotSelect = document.getElementById('slot-select');
-    slotSelect.addEventListener('change', function() {
-        updateCoursesForSlot(this.value);
-    });
+    function attachRadioListeners() {
+        const radios = document.querySelectorAll('input[name="course"]');
+        const cards = document.querySelectorAll('.course-card');
 
-    // Enrollment and draft buttons
-    const enrollBtn = document.getElementById('enroll-btn');
-});
+        radios.forEach(radio => {
+            radio.addEventListener('change', () => {
+                cards.forEach(c => c.classList.remove('selected-course'));
+                if (radio.checked) {
+                    radio.closest('.course-card').classList.add('selected-course');
+                }
+            });
+        });
+
+        cards.forEach(card => {
+            card.addEventListener('click', e => {
+                if (e.target.type !== 'radio') {
+                    const radio = card.querySelector('input[type="radio"]');
+                    if (radio) {
+                        radio.checked = true;
+                        radio.dispatchEvent(new Event('change'));
+                    }
+                }
+            });
+        });
+    }
+
+    function toggleSection() {
+        const content = document.getElementById('courseContent');
+        const header = document.querySelector('.section-header');
+        if (!content) return;
+        content.classList.toggle('collapsed');
+        if (header) header.classList.toggle('collapsed');
+    }
+
+    function handleEnrollment() {
+        const selected = document.querySelector('input[name="course"]:checked');
+        showToast(selected ? 'Enrollment Successful' : 'Please select a course before enrolling.');
+    }
+
+    // ✅ Call this manually after page is loaded
+    function initEnrollmentPage() {
+        const courseGrid = document.getElementById('courseGrid');
+        const slotSelect = document.getElementById('slotSelect');
+
+        if (!courseGrid || !slotSelect) {
+            console.error('Required elements not found in DOM');
+            return;
+        }
+
+        loadCourses('slot-a');
+        slotSelect.addEventListener('change', function () {
+            loadCourses(this.value);
+        });
+    }
+
+    // Expose to global scope
+    window.toggleSection = toggleSection;
+    window.handleEnrollment = handleEnrollment;
+    window.initEnrollmentPage = initEnrollmentPage; // Changed from initCoursesPage
+
+})();

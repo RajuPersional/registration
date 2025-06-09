@@ -1,38 +1,52 @@
 
-    <div class="enrollment-container">
-        <header class="header">
-            <h1 class="title">Course Enrollment Portal</h1>
-        </header>
 
-        <section class="enrollment-section">
-            <div class="slot-selection">
-                <label for="slot-select" class="slot-label">Select Slot:</label>
-                <select id="slot-select" class="slot-dropdown">
-                    <option value="slot-a">Slot A</option>
-                    <option value="slot-b">Slot B</option>
-                    <option value="slot-c">Slot C</option>
-                    <option value="slot-d">Slot D</option>
-                </select>
-            </div>
-        </section>
+<body>
+  <div class="enrollment-container">
+      <div class="main-headers">
+          <h1 class="title">Enrollment</h1>
+          
+          <div class="controls">
+              <label class="select-slot-label">Select Slot</label>
+              <select class="dropdown" id="slotSelect">
+                  <option value="slot-a">Slot A</option>
+                  <option value="slot-b">Slot B</option>
+                  <option value="slot-c">Slot C</option>
+                  <option value="slot-d">Slot D</option>
+              </select>
+          </div>
+  
+          <div class="status-section">
+              <span class="note-label">Note:</span>
+              <span class="status-badge status-approved">Approved</span>
+              <span class="status-badge status-pending">Pending for Approval</span>
+              <span class="status-badge status-rejected">Rejected</span>
+          </div>
+      </div>
+  
+      <div class="course-section">
+          <div class="section-header" onclick="toggleSection()">
+              <span class="section-title">⊕ Course Details</span>
+              <span class="collapse-icon">⌄</span>
+          </div>
+          
+          <div class="section-content" id="courseContent">
+              <div style="margin-bottom: 15px; font-weight: 500; color: #666;">Select Course</div>
+              
+              <div class="course-grid" id="courseGrid">
+  
+                 
+                  <!-- Courses will be populated here by JavaScript -->
+              </div>
+          </div>
+      </div>
+  
+      <div class="enrollment-button">
+          <button class="btn-enrollment" onclick="handleEnrollment()">Course Enrollment</button>
+      </div>
+  </div>
+  
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+  <script src="../static/js_files/Enrollment.js"></script>
+</body>
 
-        <section class="course-section">
-            <div class="section-header">
-                <div class="section-title">
-                    Courses Available
-                </div>
-                <button id="toggle-courses" class="toggle-btn">&#9660;</button>
-            </div>
-
-            <div id="courses-container" class="courses-container courses-grid">
-                <!-- Course cards will be inserted here dynamically -->
-            </div>
-        </section>
-
-        <section class="enrollment-actions">
-            <button id="enroll-btn" class="btn btn-primary">Enroll in Selected Course</button>
-            <button id="save-draft-btn" class="btn btn-secondary">Save as Draft</button>
-        </section>
-    </div>
-
- 

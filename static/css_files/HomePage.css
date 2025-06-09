@@ -102,392 +102,6 @@ body {
     margin-left: auto;
 }
 
-/* Main Content Styles */
-.main-content {
-    margin-top: 15px;
-    display: flex;
-    flex-direction: row;
-    height: fit-content;
-    gap:30px;
-
-    
-}
-
-.Dashboard{
-    height: fit-content;
-    width: 100%;
-    margin-left: 30px;
-    font-size: 30px;
-    margin-top: 15px;
-    margin-bottom: 8px;
-}
-/* Header Styles */
-.header {
-    display: flex;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #ffffff;
-    border-bottom: 1px solid #e0e0e0;
-    height: 60px;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.saveetha{
-    width: 150px;
-}
-
-.header-icons {
-    display: flex;
-    align-items: center;
-    margin-left: auto; /* Pushes icons to the right */
-    gap: 15px; /* Optional: spacing between icons */
-    
-}
-
-.icons{
-    cursor: pointer;
-    font-size: 23px;
-    display: flex; 
-    gap: 15px;
-    
-    
-}
-
-.icon, .user-profile {
-    display: flex;
-    align-items: center;
-    position: relative;
-    
-    
-}
-
-.badge {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    background: red;
-    color: white;
-    border-radius: 50%;
-    font-size: 10px;
-    padding: 2px 5px;
-}
-
-.user-profile {
-    display: flex;
-    align-items: center;
-    margin-left: 20px;
-    
-}
-
-.user-profile img {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    margin-right: 10px;
-    border: 1px solid #ccc;
-}
-
-.user-profile span {
-    font-weight: bold;
-    font-size: 20px;
-    color: #333;
-}
-
-.user-profile .logout-icon {
-    margin-left: 15px;
-    color: #555;
-    font-size: 30px;
-    
-}
-
-
-/* Page Content Styles */
-.page-content {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
- 
-}
-
-.content-row {
-    display: flex;
-    flex-grow: 1;
-    max-height: fit-content;
-    flex-direction: column;
-}
-
-
-
-.card.holiday-events {
-    height: 100%;
-}
-
-
-.right-column {
-    display: flex;
-    height: 830px;
-    margin-left: 30px;
-    width: fit-content;
- 
-}
-
-
-
-.left-column {
-   
-    display: flex;
-    flex-direction: column;
-    flex:1;
-    min-width: 0;
-}
-.holiday-events {
-    margin-bottom: 20px;
-}
-.attendance-confirmation {
-    margin-top: 0;
-}
-.sidebar-menu {
-    overflow: visible !important;
-}
-
-
-/* Card Styles */
-.card {
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-}
-
-
-.card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #eee;
-}
-
-.card-header h2 {
-    margin: 0;
-    font-size: 1.1em;
-    color: #fff; /* White text for colored headers */
-    display: flex;
-    align-items: center;
-}
-
-.card-header h2 i {
-    margin-right: 10px;
-}
-
-.card-header .card-actions i {
-    color: #fff; /* White icon for colored headers */
-    cursor: pointer;
-}
-
-/* Specific Card Colors */
-.holiday-events .card-header {
-    
-    background-color: #1abc9c; /* Teal */
-    color: #fff;
-    margin: -20px -20px 15px -20px; /* Extend header to edges */
-    padding: 15px 20px;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-}
-
-.attendance-confirmation .card-header {
-    background-color: #1abc9c; /* Teal */
-    color: #fff;
-    margin: -20px -20px 15px -20px; /* Extend header to edges */
-    padding: 15px 20px;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-}
-
-.notification .card-header {
-    background-color: #e74c3c; /* Red */
-    color: #fff;
-    margin: -20px -20px 20px -20px; /* Extend header to edges */
-    padding: 15px 20px;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-}
-
-/* Calendar Styles */
-.calendar-controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.calendar-nav button {
-    background: none;
-    border: 1px solid #ccc;
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 4px;
-    margin: 0 2px;
-}
-
-.calendar-nav button.today {
-    font-weight: bold;
-}
-
-.calendar-title {
-    font-size: 1.2em;
-    font-weight: bold;
-}
-
-.calendar-view button {
-    background: #eee;
-    border: 1px solid #ccc;
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 4px;
-}
-
-.calendar-grid {
-    width: 100%;
-    border-collapse: collapse;
-    table-layout: fixed;
-}
-
-.calendar-grid th, .calendar-grid td {
-    border: 1px solid #e0e0e0;
-    text-align: right;
-    padding: 10px 5px;
-    height: 60px; /* Adjust height as needed */
-    vertical-align: top;
-    font-size: 0.9em;
-}
-
-.calendar-grid th {
-    background-color: #f9f9f9;
-    text-align: center;
-    font-weight: normal;
-    padding: 5px;
-    height: auto;
-}
-
-
-
-.calendar-grid td.today {
-    background-color: #fff9c4; /* Light yellow for today */
-    font-weight: bold;
-}
-
-/* Notification Styles */
-.notification{
-    max-height:900px ;
-}
-
-.notification-list {
-    max-height: 600px; /* Adjust as needed */
-    overflow-y: auto;
-}
-
-.notification-item {
-    display: flex;
-    margin-bottom: 15px;
-    padding-bottom: 15px;
-    border-bottom: 1px dashed #eee;
-}
-
-.notification-item:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
-    padding-bottom: 0;
-}
-
-.notification-avatar img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 15px;
-}
-
-.notification-content {
-    flex-grow: 1;
-}
-
-.notification-header {
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 5px;
-}
-
-.notification-header span {
-    font-weight: normal;
-    color: #777;
-    font-size: 0.9em;
-}
-
-.notification-message {
-    font-size: 0.95em;
-    color: #555;
-    line-height: 1.4;
-}
-
-.notification-message a {
-    color: #3498db; /* Blue link */
-    word-break: break-all; /* Prevent long URLs from breaking layout */
-}
-
-.notification-download {
-    display: inline-block;
-    margin-top: 8px;
-    padding: 5px 10px;
-    background-color: #3498db; /* Blue button */
-    color: white;
-    text-decoration: none;
-    border-radius: 4px;
-    font-size: 0.85em;
-    cursor: pointer;
-}
-
-.notification-download i {
-    margin-right: 5px;
-}
-
-/* Attendance Confirmation Styles */
-.attendance-content {
-    text-align: center;
-    padding: 30px 0;
-}
-
-.attendance-content .icon {
-    font-size: 3em;
-    color: #e74c3c; /* Red 'X' icon */
-    margin-bottom: 10px;
-}
-
-.attendance-content p {
-    color: #777;
-    font-size: 1.1em;
-}
-
-/* Scrollbar styling (optional, for better aesthetics) */
-::-webkit-scrollbar {
-    width: 8px;
-}
-
-::-webkit-scrollbar-track {
-    background: #f1f1f1;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #ccc;
-    border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #aaa;
-}
-
 
 .main-header {
     display: flex;
@@ -507,36 +121,36 @@ body {
     width: 150px;
 }
 
-.main-header .header-left {
+.header-left {
     display: flex;
     align-items: center;
     gap: 18px;
 }
 
-.main-header .header-title {
+.header-title {
     font-size: 1.5rem;
     font-weight: 700;
     color: #2c3e50;
     letter-spacing: 1px;
 }
-.main-header .header-right {
+.header-right {
     display: flex;
     align-items: center;
     gap: 20px;
 }
-.main-header .header-user {
+.header-user {
     font-size: 1rem;
     color: #34495e;
     font-weight: 500;
     margin-right: 10px;
 }
-.main-header .fa-bell, .main-header .fa-user-circle  {
+.fa-bell, .fa-user-circle  {
     font-size: 1.4rem;
     color: #2c3e50;
     cursor: pointer;
     margin-left: 8px;
     transition: color 0.2s;
 }
-.main-header .fa-bell:hover, .main-header .fa-user-circle:hover {
+.fa-bell:hover, .fa-user-circle:hover {
     color: #007bff;
 }

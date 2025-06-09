@@ -1,50 +1,63 @@
-function loadPage(url) {
-    const container = document.getElementById('total-container');
+async function loadPage(url) {
+  const container = document.getElementById('total-container');
 
-    // Clean up old CSS & JS
-    document.getElementById("dynamic-css")?.remove();
-    document.getElementById("dynamic-js")?.remove();
+  // Remove old dynamic CSS & JS
+  document.querySelectorAll('[data-dynamic="true"]').forEach(el => el.remove());
 
-    fetch(url)
-        .then(res => res.text())
-        .then(html => {
-            container.innerHTML = html;
+  try {
+      // Load HTML content
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`Failed to load page: ${res.status}`);
+      const html = await res.text();
+      container.innerHTML = html;
 
-            const name = url.split("/").pop(); // Get the last part of URL
-            const capitalized = name.charAt(0).toUpperCase() + name.slice(1); // Capitalize
+      const name = url.split('/').pop(); // e.g., "Courses"
+      const capitalized = name.charAt(0).toUpperCase() + name.slice(1);
 
-            // Load matching CSS
-            const css = document.createElement("link");
-            css.rel = "stylesheet";
-            css.href = `/static/css_files/${capitalized}.css`;
-            css.id = "dynamic-css";
-            document.head.appendChild(css);
+      // Load CSS
+      const cssLink = document.createElement('link');
+      cssLink.rel = 'stylesheet';
+      cssLink.href = `/static/css_files/${capitalized}.css`;
+      cssLink.dataset.dynamic = "true";
+      document.head.appendChild(cssLink);
 
-            // Load matching JS
-            const script = document.createElement("script");
-            script.src = `/static/js_files/${capitalized}.js`;
-            script.id = "dynamic-js";
-            document.body.appendChild(script);
-        })
-        .catch(error => {
-            console.error('Error loading page:', error);
-            container.innerHTML = "<p>Error loading page.</p>";
-        });
+      // Check for JS existence
+      const jsUrl = `/static/js_files/${capitalized}.js`;
+      const headResponse = await fetch(jsUrl, { method: 'HEAD' });
+
+      if (headResponse.ok) {
+          const script = document.createElement('script');
+          script.src = jsUrl;
+          script.dataset.dynamic = "true";
+          script.onload = () => {
+              const initFunc = window[`init${capitalized}Page`];
+              if (typeof initFunc === 'function') {
+                  initFunc(); // Call initEnrollmentPage etc.
+              }
+          };
+          document.body.appendChild(script);
+      } else {
+          console.log(`JS file not found for ${capitalized}, skipping script load.`);
+      }
+
+  } catch (error) {
+      console.error('Error loading page:', error);
+      container.innerHTML = '<p>Error loading page.</p>';
+  }
 }
 
-
 document.addEventListener("DOMContentLoaded", function () {
-    loadPage('/dashboard');  // Default
+  loadPage('/Dashboard'); // Load default
 
-    document.querySelectorAll('.sig-out').forEach(icon => {
-        icon.addEventListener('click', () => window.location.href = '/');
-    });
+  document.querySelectorAll('.sig-out').forEach(icon => {
+      icon.addEventListener('click', () => window.location.href = '/');
+  });
 
-    document.querySelectorAll('.sidebar-menu li').forEach(item => {
-        item.addEventListener('click', function (e) {
-            e.preventDefault();
-            const url = this.getAttribute('data-url');
-            loadPage(url);
-        });
-    });
+  document.querySelectorAll('.sidebar-menu li').forEach(item => {
+      item.addEventListener('click', function (e) {
+          e.preventDefault();
+          const url = this.getAttribute('data-url');
+          loadPage(url);
+      });
+  });
 });

@@ -1,11 +1,11 @@
 from flask import Flask, request, jsonify , render_template
 from flask_cors import CORS
 
-app = Flask(__name__)
+app = Flask(__name__,static_folder='static')
 CORS(app)
 
 @app.route('/api/login', methods=['POST'])
-def login():
+def login():    
     data = request.json
     register_number = data.get('registerNumber')
     password = data.get('password')
@@ -47,8 +47,8 @@ def enrollment():
 
 
 @app.route('/Dashboard')
-def assessment():
-    return render_template('dashboard.html')
+def Dashboard():
+    return render_template('Dashboard.html')
 
 
 @app.route('/Attendence')
