@@ -3,7 +3,7 @@
         'slot-a': [
             { title: "MAT1001-Advanced Mathematics for Engineers-Dr. Rajesh Kumar", badge: "15" },
             { title: "PHY2001-Quantum Physics Applications-Dr. Priya Sharma", badge: "8" },
-            { title: "CHE2001-Chemical Engineering Applications-Dr. Sumanth Reddy", badge: "12" },
+            { title: "CHE2001-Chemical Engineering Applications-Dr. Sumanth Reddy", badge: "12" } ,
         ],
         'slot-b': [
             { title: "BIO1001-Biotechnology Fundamentals-Dr. Kavya Nair", badge: "25" },

@@ -1,49 +1,37 @@
-
-
 <div id="profile-section" class="profile-container">
     <!-- Header Section -->
-        <div class="profile-header">
-            <h1 class="profile-title">My Profile</h1>
-            <button class="edit-btn hover-element">Edit Profile</button>
+    <div class="profile-header">
+        <h1 class="profile-title">My Profile</h1>
+        <button class="edit-btn hover-element">Edit Profile</button>
+    </div>
+
+    <div class="profile-content">
+        <div class="profile-image-container">
+            <div class="profile-image hover-element"></div>
         </div>
-
-        <div class="profile-content">
-            <div class="profile-details">
-                <div class="detail-group">
-                    <span class="detail-label">Name</span>
-                    <span class="detail-value">NAGIDI PHANINDRA</span>
-                </div>
-                <div class="detail-group">
-                    <span class="detail-label">Reg No.</span>
-                    <span class="detail-value">192224206</span>
-                </div>
-                <div class="detail-group">
-                    <span class="detail-label">Date of Birth</span>
-                    <span class="detail-value">28/05/2003</span>
-                </div>
-                <div class="detail-group">
-                    <span class="detail-label">Program</span>
-                    <span class="detail-value">ARTIFICIAL INTELLIGENCE AND DATA SCIENCES-1</span>
-                </div>
-                <div class="detail-group">
-                    <span class="detail-label">Email</span>
-                    <span class="detail-value">phanindranagidi@gmail.com</span>
-                </div>
-                <div class="detail-group">
-                    <span class="detail-label">Mobile No.</span>
-                    <span class="detail-value">9160753649</span>
-                </div>
+        <div class="profile-details">
+            <div class="detail-group">
+                <span class="detail-label">Name</span>
+                <span class="detail-value" id="profile-name">Loading...</span>
             </div>
-
-            <div class="profile-image-container">
-                <div class="profile-image hover-element"></div>
+            <div class="detail-group">
+                <span class="detail-label">Reg No.</span>
+                <span class="detail-value" id="profile-reg">Loading...</span>
             </div>
-
-            <div class="record-score-card">
-                <span class="score-number">0</span>
-                <div class="score-label">RECORD SCORE</div>
+            <div class="detail-group">
+                <span class="detail-label">Date of Birth</span>
+                <span class="detail-value" id="profile-dob">Loading...</span>
+            </div>
+            <div class="detail-group">
+                <span class="detail-label">Email</span>
+                <span class="detail-value" id="profile-email">Loading...</span>
+            </div>
+            <div class="detail-group">
+                <span class="detail-label">Mobile No.</span>
+                <span class="detail-value" id="profile-phone">Loading...</span>
             </div>
         </div>
+    </div>
 
     <!-- Student Record Overview -->
     <section class="overview-section">
@@ -83,8 +71,6 @@
             <button class="add-record-btn hover-element">Add Record</button>
         </div>
 
-      
-
         <div class="table-container">
             <table class="data-table">
                 <thead class="table-header">
@@ -105,4 +91,11 @@
         </div>
     </section>
 </div>
+
+<script>
+function toggleEdit() {
+    // Add edit functionality here
+    console.log('Edit button clicked');
+}
+</script>
 

@@ -89,7 +89,6 @@
             height: 120px;
             border-radius: 20px;
             background: linear-gradient(45deg, #f1f5f9, #cbd5e1);
-            background-image: url('image_url');
             background-size: cover;
             background-position: center;
             border: 3px solid white;

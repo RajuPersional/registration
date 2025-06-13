@@ -19,17 +19,17 @@
 }
 
 .section-headers {
-    padding: 20px 24px;
+    padding: 13.5px 24px;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 1.1rem;
     color: white;
     user-select: none;
     transition: all 0.3s ease;
-    border-radius: 9px;
+    border-radius: 5px
 }
 
 .section-headers:hover {
