@@ -1,9 +1,9 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
-db = SQLAlchemy()
+db = SQLAlchemy()  # using the db to access the database
 
-class User(db.Model):
+class User(db.Model): # db is the parent class and the .colum and all are from the parent class 
     id = db.Column(db.Integer, primary_key=True)
     register_number = db.Column(db.Integer, unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)

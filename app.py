@@ -9,7 +9,7 @@ CORS(app)
 
 # Configure SQLite database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # This will not Track the unwanted data form the database
 app.config['SECRET_KEY'] = 'your-secret-key-here'  # Required for session
 
 # Initialize database
@@ -21,7 +21,7 @@ def init_db():
         db.create_all()
         
         # Check if we already have users
-        if User.query.count() == 0:
+        if User.query.count() == 0: 
             # Sample users data
             sample_users = [
                 {
@@ -69,9 +69,9 @@ def init_db():
             # Add users to database
             for user_data in sample_users:
                 user = User(**user_data)
-                db.session.add(user)
+                db.session.add(user) #Okay DB is  planning to add this row soon.”
             
-            db.session.commit()
+            db.session.commit() # this will add the data which are planning to add soon.
 
 @app.route('/api/login', methods=['POST'])
 def login():
@@ -89,12 +89,9 @@ def login():
     
     if user:
         # Store user info in session
-        session['user_id'] = user.id
-        session['register_number'] = user.register_number
         return jsonify({
             'status': 'success',
             'message': 'Login successful',
-            'user': user.to_dict()
         }), 200
     else:
         return jsonify({'status': 'fail', 'message': 'Invalid credentials'}), 401
