@@ -3,6 +3,7 @@ from flask_cors import CORS
 from models import db, User
 from datetime import datetime
 import os
+from profile_routes import profile_bp
 
 app = Flask(__name__, static_folder='static')
 CORS(app)
@@ -73,6 +74,8 @@ def init_db():
             
             db.session.commit() # this will add the data which are planning to add soon.
 
+app.register_blueprint(profile_bp)
+
 @app.route('/api/login', methods=['POST'])
 def login():
     data = request.json
@@ -95,19 +98,6 @@ def login():
         }), 200
     else:
         return jsonify({'status': 'fail', 'message': 'Invalid credentials'}), 401
-
-@app.route('/api/profile')
-def get_profile():
-    if 'user_id' not in session:
-        return jsonify({'status': 'fail', 'message': 'Not logged in'}), 401
-    
-    user = User.query.get(session['user_id'])
-    if user:
-        return jsonify({
-            'status': 'success',
-            'user': user.to_dict()
-        })
-    return jsonify({'status': 'fail', 'message': 'User not found'}), 404
 
 @app.route('/')
 def home():

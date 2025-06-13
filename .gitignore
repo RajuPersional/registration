@@ -2,4 +2,3 @@ venv
 requirements.txt
 users.db
 __pycache__
-Example_of_user_funtion.py
