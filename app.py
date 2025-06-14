@@ -1,80 +1,13 @@
 from flask import Flask, request, jsonify, render_template, session
 from flask_cors import CORS
-from models import db, User
-from datetime import datetime
 import os
-from profile_routes import profile_bp
+from database import check_login, get_user_data, get_all_users
 
 app = Flask(__name__, static_folder='static')
 CORS(app)
 
-# Configure SQLite database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # This will not Track the unwanted data form the database
-app.config['SECRET_KEY'] = 'your-secret-key-here'  # Required for session
-
-# Initialize database
-db.init_app(app)
-
-# Create database tables and add sample data
-def init_db():
-    with app.app_context():
-        db.create_all()
-        
-        # Check if we already have users
-        if User.query.count() == 0: 
-            # Sample users data
-            sample_users = [
-                {
-                    'register_number': 1,
-                    'password': '1',
-                    'name': 'John Doe',
-                    'date_of_birth': datetime(2000, 1, 15),
-                    'email': 'john.doe@example.com',
-                    'phone_number': '1234567890'
-                },
-                {
-                    'register_number': 2,
-                    'password': '2',
-                    'name': 'Jane Smith',
-                    'date_of_birth': datetime(2001, 3, 20),
-                    'email': 'jane.smith@example.com',
-                    'phone_number': '2345678901'
-                },
-                {
-                    'register_number': 3,
-                    'password': '3',
-                    'name': 'Mike Johnson',
-                    'date_of_birth': datetime(2002, 5, 10),
-                    'email': 'mike.johnson@example.com',
-                    'phone_number': '3456789012'
-                },
-                {
-                    'register_number': 4,
-                    'password': '4',
-                    'name': 'Sarah Williams',
-                    'date_of_birth': datetime(2003, 7, 25),
-                    'email': 'sarah.williams@example.com',
-                    'phone_number': '4567890123'
-                },
-                {
-                    'register_number': 5,
-                    'password': '5',
-                    'name': 'David Brown',
-                    'date_of_birth': datetime(2004, 9, 30),
-                    'email': 'david.brown@example.com',
-                    'phone_number': '5678901234'
-                }
-            ]
-            
-            # Add users to database
-            for user_data in sample_users:
-                user = User(**user_data)
-                db.session.add(user) #Okay DB is  planning to add this row soon.”
-            
-            db.session.commit() # this will add the data which are planning to add soon.
-
-app.register_blueprint(profile_bp)
+# Configure session
+app.config['SECRET_KEY'] = 'your-secret-key-here'
 
 @app.route('/api/login', methods=['POST'])
 def login():
@@ -87,14 +20,13 @@ def login():
     except (ValueError, TypeError):
         return jsonify({'status': 'fail', 'message': 'Invalid registration number'}), 400
 
-    # Check user in database
-    user = User.query.filter_by(register_number=register_number, password=password).first()
-    
-    if user:
-        # Store user info in session
+    # Check user in database using our new function
+    if check_login(register_number, password):
+        session['register_number'] = register_number
         return jsonify({
             'status': 'success',
             'message': 'Login successful',
+            'redirect': '/HomePage'
         }), 200
     else:
         return jsonify({'status': 'fail', 'message': 'Invalid credentials'}), 401
@@ -105,15 +37,20 @@ def home():
 
 @app.route('/HomePage')
 def homepage():
-    if 'user_id' not in session:
+    if 'register_number' not in session:
         return render_template('Bricks.html')
     return render_template('HomePage.html')
 
 @app.route('/Profile')
 def profile():
-    if 'user_id' not in session:
+    if 'register_number' not in session:
         return render_template('Bricks.html')
-    return render_template('Profile.html')
+    
+    user_data = get_user_data(session['register_number'])
+    if not user_data:
+        return render_template('Bricks.html')  # Redirect to login if user not found
+    
+    return render_template('Profile.html', user=user_data)
 
 @app.route('/Financial')
 def financial():
@@ -135,6 +72,10 @@ def attendence():
 def courses():
     return render_template('course.html')    
 
+@app.route('/view-database')
+def view_database():
+    users = get_all_users()
+    return render_template('view_database.html', users=users)
+
 if __name__ == '__main__':
-    init_db()  # Initialize database and add sample data
     app.run(debug=True)
