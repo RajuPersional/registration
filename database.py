@@ -62,13 +62,27 @@ def get_all_users():
     finally:
         conn.close()
 
-def get_user_data(register_number):
-    """Get user data by registration number"""
+def get_user_data(register_number, password=None):
+    """Get user data by registration number and optionally verify password
+    
+    Args:
+        register_number (int): The user's registration number
+        password (str, optional): The user's password for verification
+        
+    Returns:
+        dict: User data if found and password matches (if provided), None otherwise
+    """
     conn = sqlite3.connect('users.db')
     cursor = conn.cursor()
     
     try:
-        cursor.execute('SELECT * FROM user WHERE register_number = ?', (register_number,))
+        # If password is provided, verify both registration number and password
+        if password is not None:
+            cursor.execute('SELECT * FROM user WHERE register_number = ? AND password = ?',
+                         (register_number, password))
+        else:
+            cursor.execute('SELECT * FROM user WHERE register_number = ?', (register_number,))
+            
         user = cursor.fetchone()
         if user:
             print(f"DEBUG: Raw user data from DB: {user}")

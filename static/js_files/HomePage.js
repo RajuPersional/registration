@@ -11,7 +11,7 @@ async function loadPage(url) {
         const html = await res.text();
         container.innerHTML = html;
 
-        // Extract name and capitalize
+        // Extract name and capitalize for CSS/JS file names
         const name = url.split('/').pop();
         const capitalized = name.charAt(0).toUpperCase() + name.slice(1);
 
@@ -22,11 +22,9 @@ async function loadPage(url) {
         cssLink.dataset.dynamic = "true";
         document.head.appendChild(cssLink);
 
-        // Check for JS file existence
+        // Load dynamic JS if exists
         const jsUrl = `/static/js_files/${capitalized}.js`;
-        
         const jsResponse = await fetch(jsUrl, { method: 'HEAD' });
-
         if (jsResponse.ok) {
             const script = document.createElement('script');
             script.src = jsUrl;
@@ -38,29 +36,38 @@ async function loadPage(url) {
                 }
             };
             document.body.appendChild(script);
-        } else {
-            console.log(`No JS file found for ${capitalized}. Skipping script load.`);
         }
-
     } catch (error) {
         console.error('Error loading page:', error);
         container.innerHTML = '<p>Error loading page.</p>';
     }
 }
 
-
+// Add click event listeners for menu items
 document.addEventListener("DOMContentLoaded", function () {
-  loadPage('/Dashboard'); // Load default
+    console.log("HomePage.js: DOMContentLoaded fired.");
+    loadPage('/Dashboard')
+    
+    
+    document.querySelectorAll('.sidebar-menu li').forEach(item => {
+        item.addEventListener('click', function() {
+            const url = this.dataset.url;
+            if (url) {
+                loadPage(url);
+            }
 
-  document.querySelectorAll('.sig-out').forEach(icon => {
-      icon.addEventListener('click', () => window.location.href = '/');
-  });
+        });
+    });
 
-  document.querySelectorAll('.sidebar-menu li').forEach(item => {
-      item.addEventListener('click', function (e) {
-          e.preventDefault();
-          const url = this.getAttribute('data-url');
-          loadPage(url);
-      });
-  });
+    // Add click event for .sig-out to redirect to /Bricks
+    const signOutElements = document.querySelectorAll('.sig-out');
+    console.log(`HomePage.js: Found ${signOutElements.length} .sig-out elements.`);
+    signOutElements.forEach(item => {
+        item.addEventListener('click', function() {
+            console.log("HomePage.js: .sig-out element clicked! Redirecting to /...");
+            window.location.href = '/';
+        });
+    });
 });
+
+
