@@ -1,0 +1,1 @@
+It will automatically discover and run any test files (usually named test_*.py or *_test.py).
