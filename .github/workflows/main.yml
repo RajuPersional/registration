@@ -36,3 +36,12 @@ jobs:
         # Run tests with verbose output
         python -m pytest tests/ -v --cov=. --cov-report=xml
   
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        files: coverage.xml
+    
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        files: coverage.xml    
