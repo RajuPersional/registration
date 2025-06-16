@@ -86,13 +86,15 @@ def get_user_data(register_number, password=None):
         user = cursor.fetchone()
         if user:
             print(f"DEBUG: Raw user data from DB: {user}")
+            # Match the indices with the actual database structure:
+            # register_number, password, name, email, phone_number, date_of_birth
             return {
-                'id': user[0],
-                'register_number': user[1],
-                'name': user[3],
-                'email': user[5],
-                'phone_number': user[6],
-                'date_of_birth': user[4]
+                'register_number': user[0],  # First column is register_number
+                'password': user[1],         # Second column is password
+                'name': user[2],             # Third column is name
+                'email': user[3],            # Fourth column is email
+                'phone_number': user[4],     # Fifth column is phone_number
+                'date_of_birth': user[5]     # Sixth column is date_of_birth
             }
         return None
     except sqlite3.Error as e:
