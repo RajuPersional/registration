@@ -7,6 +7,7 @@ import os
 def client():
     app.config['TESTING'] = True
     app.config['WTF_CSRF_ENABLED'] = False
+    app.config['SECRET_KEY'] = 'test-secret-key'  # Add secret key for session
     with app.test_client() as client:
         with app.app_context():
             yield client
@@ -45,10 +46,15 @@ def test_profile_access_without_login(client):
 
 def test_update_profile_validation(client):
     """Test profile update validation"""
-    # First login
-    client.post('/api/login',
-                json={'registerNumber': '12345', 'password': 'testpass'},
-                content_type='application/json')
+    # First login and store the session
+    login_response = client.post('/api/login',
+                               json={'registerNumber': '12345', 'password': 'testpass'},
+                               content_type='application/json')
+    assert login_response.status_code == 200  # Make sure login succeeds
+    
+    # Get the session cookie
+    session_cookie = login_response.headers.get('Set-Cookie')
+    assert session_cookie is not None, "No session cookie received after login"
     
     # Test with invalid email
     response = client.post('/api/update-profile',
@@ -58,7 +64,8 @@ def test_update_profile_validation(client):
                               'phone_number': '1234567890',
                               'date_of_birth': '2000-01-01'
                           },
-                          content_type='application/json')
+                          content_type='application/json',
+                          headers={'Cookie': session_cookie})
     assert response.status_code == 400
     data = json.loads(response.data)
     assert data['status'] == 'fail'
@@ -72,7 +79,8 @@ def test_update_profile_validation(client):
                               'phone_number': '123',  # Invalid phone number
                               'date_of_birth': '2000-01-01'
                           },
-                          content_type='application/json')
+                          content_type='application/json',
+                          headers={'Cookie': session_cookie})
     assert response.status_code == 400
     data = json.loads(response.data)
     assert data['status'] == 'fail'
@@ -80,7 +88,17 @@ def test_update_profile_validation(client):
 
 def test_routes_exist(client):
     """Test if all main routes exist and return 200 status code"""
+    # First login to get a valid session
+    login_response = client.post('/api/login',
+                               json={'registerNumber': '12345', 'password': 'testpass'},
+                               content_type='application/json')
+    assert login_response.status_code == 200
+    
+    session_cookie = login_response.headers.get('Set-Cookie')
+    assert session_cookie is not None, "No session cookie received after login"
+    
+    # Test routes that require authentication
     routes = ['/HomePage', '/Financial', '/Enrollment', '/Dashboard', '/Attendence', '/Courses']
     for route in routes:
-        response = client.get(route)
-        assert response.status_code == 200 
+        response = client.get(route, headers={'Cookie': session_cookie})
+        assert response.status_code == 200, f"Route {route} failed with status {response.status_code}" 
