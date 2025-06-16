@@ -106,7 +106,7 @@ def get_user_data(register_number, password=None):
                 'register_number': user[1], 
                 'name': user[3],            
                 'email': user[5],           
-                'phone_number': user[6] if len(user) > 6 else '', # Assuming phone_number would be at index 6 if added
+                'phone_number': user[6] ,
                 'date_of_birth': user[4]    
             }
         
