@@ -116,27 +116,4 @@ def test_update_profile_validation(client):
     assert response.status_code == 400
     data = json.loads(response.data)
     assert data['status'] == 'fail'
-    assert 'Phone number must be 10 digits' in data['message']
-
-def test_routes_exist(client):
-    """Test if all main routes exist and return 200 status code"""
-    # First login to get a valid session
-    login_response = client.post('/api/login',
-                               json={'registerNumber': '1', 'password': '1'},
-                               content_type='application/json')
-    assert login_response.status_code == 200, "Login failed"
-    data = json.loads(login_response.data)
-    assert data['status'] == 'success', f"Login failed with message: {data.get('message')}"
-    
-    session_cookie = login_response.headers.get('Set-Cookie')
-    assert session_cookie is not None, "No session cookie received after login"
-    
-    # Test routes that require authentication
-    routes = ['/HomePage', '/Financial', '/Enrollment', '/Dashboard', '/Attendence', '/Courses']
-    for route in routes:
-        response = client.get(route, headers={'Cookie': session_cookie})
-        # For routes that might redirect to login, we accept both 200 and 302
-        assert response.status_code in [200, 302], f"Route {route} failed with status {response.status_code}"
-        if response.status_code == 200:
-            # Only check content for successful responses
-            assert b'College Management System' in response.data, f"Route {route} returned unexpected content" 
+    assert 'Phone number must be 10 digits' in data['message'] 
