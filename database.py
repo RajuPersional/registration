@@ -1,11 +1,11 @@
 import sqlite3
 
 def create_database():
-    """Create the database and tables if they don't exist"""
+    """Create the database and tables if they don't exist, and add missing columns"""
     conn = sqlite3.connect('users.db')
     cursor = conn.cursor()
     
-    # Create the user table
+    # Create the user table if it doesn't exist with the desired schema
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS user (
         register_number INTEGER PRIMARY KEY,
@@ -17,7 +17,21 @@ def create_database():
     )
     ''')
     
-    # Add some sample users if the table is empty
+    # Add missing columns if they don't exist in an older database schema
+    # Check for 'phone_number' column
+    cursor.execute("PRAGMA table_info(user)")
+    columns = [col[1] for col in cursor.fetchall()]
+    if 'phone_number' not in columns:
+        cursor.execute("ALTER TABLE user ADD COLUMN phone_number TEXT;")
+        print("Added 'phone_number' column to user table.")
+
+    # Check for 'date_of_birth' column (if it might also be missing or in wrong type)
+    # This assumes date_of_birth was already there, but adding check for robustness
+    if 'date_of_birth' not in columns:
+        cursor.execute("ALTER TABLE user ADD COLUMN date_of_birth DATE;")
+        print("Added 'date_of_birth' column to user table.")
+
+    # Add some sample users if the table is empty (will not re-add if users exist)
     cursor.execute("SELECT COUNT(*) FROM user")
     if cursor.fetchone()[0] == 0:
         sample_users = [
@@ -29,7 +43,7 @@ def create_database():
     
     conn.commit()
     conn.close()
-    print("Database created successfully!")
+    print("Database created successfully (or updated)!\n")
 
 def check_login(register_number, password):
     """Check if login credentials are correct"""
@@ -86,16 +100,17 @@ def get_user_data(register_number, password=None):
         user = cursor.fetchone()
         if user:
             print(f"DEBUG: Raw user data from DB: {user}")
-            # Match the indices with the actual database structure:
-            # register_number, password, name, email, phone_number, date_of_birth
+           
             return {
-                'register_number': user[0],  # First column is register_number
-                'password': user[1],         # Second column is password
-                'name': user[2],             # Third column is name
-                'email': user[3],            # Fourth column is email
-                'phone_number': user[4],     # Fifth column is phone_number
-                'date_of_birth': user[5]     # Sixth column is date_of_birth
+                'id': user[0],              
+                'register_number': user[1], 
+                'name': user[3],            
+                'email': user[5],           
+                'phone_number': user[6] if len(user) > 6 else '', # Assuming phone_number would be at index 6 if added
+                'date_of_birth': user[4]    
             }
+        
+        
         return None
     except sqlite3.Error as e:
         print(f"Error getting user data: {e}")
