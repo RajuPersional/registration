@@ -1,9 +1,6 @@
-// Direct button click handler
-console.log('Profile.js loaded');
 
 // Get the button directly
 const editButton = document.getElementById('edit-save-btn');
-console.log('Button found:', editButton);
 
 // Function to validate input fields
 function validateInput(input) {
@@ -171,13 +168,15 @@ editButton.onclick = function() {
     if (this.textContent === 'Edit Profile') {
         // Entering edit mode
         this.textContent = 'Save';
-        // Show inputs, hide displays - but exclude registration number
+        // This will make the input element to be Displayed in the page 
         document.querySelectorAll('.profile-input').forEach(input => {
             if (input.id !== 'profile-reg-input') {
                 input.style.display = 'block';
                 validateInput(input);
             }
         });
+
+        // This make the data in the page is hidden
         document.querySelectorAll('.detail-value').forEach(span => {
             if (span.id !== 'profile-reg-display') {
                 span.style.display = 'none';

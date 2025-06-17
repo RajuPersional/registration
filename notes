@@ -1,1 +1,13 @@
 It will automatically discover and run any test files (usually named test_*.py or *_test.py).
+
+user_blueprint = Blueprint('user', __name__)
+| Part             | Meaning                                                                                  |
+| ---------------- | ---------------------------------------------------------------------------------------- |
+| `Blueprint(...)` | A Flask class used to define routes outside the main file                                |
+| `'user'`         | The name of the blueprint (helps identify it)                                            |
+| `__name__`       | Tells Flask where this blueprint is defined (for locating templates, static files, etc.) |
+
+
+
+
+app.register_blueprint(user_blueprint)   this will allows to run the routers in the differect file 

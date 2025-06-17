@@ -22,7 +22,7 @@ def login():
         return jsonify({'status': 'fail', 'message': 'Invalid registration number'}), 400
 
     # Check user in database using our new function
-    if check_login(register_number, password):
+    if check_login(register_number, password): # the return will be  like this if (true)
         session['register_number'] = register_number
         session['password'] = password  # Store password in session for verification
         return jsonify({
@@ -39,11 +39,11 @@ def home():
 
 @app.route('/HomePage')
 def homepage():
-    if 'register_number' not in session:
+    if 'register_number' not in session: #even though the user data is in the database is because the session acts as proof that the user is currently logged in
         return render_template('Bricks.html')
     
     user_data = get_user_data(session['register_number'], session['password'])
-    return render_template('HomePage.html', user=user_data) if user_data else render_template('Bricks.html')
+    return render_template('HomePage.html', user=user_data) if user_data else render_template('Bricks.html')# this is get the data form the db for displying the name , that  data will be direcly accessed in the html page 
 
 @app.route('/Profile')
 def profile():
@@ -91,31 +91,14 @@ def update_profile():
     data = request.json
     register_number = session['register_number']
     
-    # Validate input data
+    # Basic required field check (keep this for security)
     required_fields = ['name', 'email', 'phone_number', 'date_of_birth']
     for field in required_fields:
         if field not in data or not data[field]:
-            return jsonify({
-                'status': 'fail',
-                'message': f'{field.replace("_", " ").title()} is required'
-            }), 400
+            return jsonify({'status': 'fail', 'message': f'{field.replace("_", " ").title()} is required'}), 400
     
-    # Validate email format
-    import re
-    email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-    if not re.match(email_pattern, data['email']):
-        return jsonify({
-            'status': 'fail',
-            'message': 'Invalid email format'
-        }), 400
-    
-    # Validate phone number format (basic validation)
-    phone_pattern = r'^\d{10}$'
-    if not re.match(phone_pattern, data['phone_number']):
-        return jsonify({
-            'status': 'fail',
-            'message': 'Phone number must be 10 digits'
-        }), 400
+    # You can remove the email and phone validation from here since Profile.js handles it
+    # But keep basic validation for security
     
     try:
         # Update user data in database

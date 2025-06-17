@@ -1,11 +1,11 @@
 import sqlite3
 
 def create_database():
-    """Create the database and tables if they don't exist, and add missing columns"""
-    conn = sqlite3.connect('users.db')
-    cursor = conn.cursor()
+    """Create the database and tables with sample data"""
+    conn = sqlite3.connect('users.db') # This is used to connet it to the database
+    cursor = conn.cursor()             # Cursor is the once  helps to Write the sqlite3 command 
     
-    # Create the user table if it doesn't exist with the desired schema
+    # Create the user table with all required columns
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS user (
         register_number INTEGER PRIMARY KEY,
@@ -17,21 +17,7 @@ def create_database():
     )
     ''')
     
-    # Add missing columns if they don't exist in an older database schema
-    # Check for 'phone_number' column
-    cursor.execute("PRAGMA table_info(user)")
-    columns = [col[1] for col in cursor.fetchall()]
-    if 'phone_number' not in columns:
-        cursor.execute("ALTER TABLE user ADD COLUMN phone_number TEXT;")
-        print("Added 'phone_number' column to user table.")
-
-    # Check for 'date_of_birth' column (if it might also be missing or in wrong type)
-    # This assumes date_of_birth was already there, but adding check for robustness
-    if 'date_of_birth' not in columns:
-        cursor.execute("ALTER TABLE user ADD COLUMN date_of_birth DATE;")
-        print("Added 'date_of_birth' column to user table.")
-
-    # Add some sample users if the table is empty (will not re-add if users exist)
+    # Add sample users if table is empty
     cursor.execute("SELECT COUNT(*) FROM user")
     if cursor.fetchone()[0] == 0:
         sample_users = [
@@ -39,11 +25,11 @@ def create_database():
             (2, '2', 'Jane Smith', 'jane.smith@example.com', '2345678901', '2001-03-20'),
             (3, '3', 'Mike Johnson', 'mike.johnson@example.com', '3456789012', '2002-05-10')
         ]
-        cursor.executemany('INSERT INTO user VALUES (?, ?, ?, ?, ?, ?)', sample_users)
+        cursor.executemany('INSERT INTO user VALUES (?, ?, ?, ?, ?, ?)', sample_users) # inserts all data in the given Formate
     
     conn.commit()
     conn.close()
-    print("Database created successfully (or updated)!\n")
+    print("Database created successfully!")
 
 def check_login(register_number, password):
     """Check if login credentials are correct"""
@@ -51,9 +37,8 @@ def check_login(register_number, password):
     cursor = conn.cursor()
     
     try:
-        cursor.execute('SELECT * FROM user WHERE register_number = ? AND password = ?',
-                      (register_number, password))
-        user = cursor.fetchone()
+        cursor.execute('SELECT * FROM user WHERE register_number = ? AND password = ?',(register_number, password))
+        user = cursor.fetchone() # the fetchone will give the First output if i use the fetchall() it will give all the outputs form the Query
         return user is not None
     except sqlite3.Error as e:
         print(f"Error during login: {e}")
