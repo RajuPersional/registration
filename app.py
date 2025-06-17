@@ -3,6 +3,7 @@ from flask_cors import CORS
 import os
 from database import check_login, get_user_data, get_all_users
 import sqlite3
+import re
 
 app = Flask(__name__, static_folder='static')
 CORS(app)
@@ -97,8 +98,15 @@ def update_profile():
         if field not in data or not data[field]:
             return jsonify({'status': 'fail', 'message': f'{field.replace("_", " ").title()} is required'}), 400
     
-    # You can remove the email and phone validation from here since Profile.js handles it
-    # But keep basic validation for security
+    # Email validation
+    email_pattern = re.compile(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
+    if not email_pattern.match(data['email']):
+        return jsonify({'status': 'fail', 'message': 'Invalid email format'}), 400
+    
+    # Phone number validation
+    phone_pattern = re.compile(r'^\d{10}$')
+    if not phone_pattern.match(data['phone_number']):
+        return jsonify({'status': 'fail', 'message': 'Phone number must be 10 digits'}), 400
     
     try:
         # Update user data in database
