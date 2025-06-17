@@ -96,7 +96,7 @@
     <!-- The Modal -->
     <div id="attendance-modal" class="modal">
         <div class="modal-content">
-            <span class="close-button">&times;</span>
+            <span id="close" class="close-button">&times;</span>
             <h3>Attendance day wise absent details</h3>
             <table class="modal-table">
                 <thead>
@@ -106,9 +106,13 @@
                         <th>Attendance Type</th>
                     </tr>
                 </thead>
+
                 <tbody id="modal-table-body">
                     <!-- Details will be inserted here by JavaScript -->
                 </tbody>
+                
             </table>
+            <button class="close-button modal-close-btn">Close</button>
         </div>
+     
     </div>

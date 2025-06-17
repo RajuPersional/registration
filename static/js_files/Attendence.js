@@ -63,7 +63,7 @@ function closeModal(attendanceModal) {
 }
 
     const attendanceModal = document.getElementById('attendance-modal');
-    const closeButton = document.querySelector('.close-button');
+    const closeButton = document.querySelectorAll('.close-button');
     const modalTableBody = document.getElementById('modal-table-body');
 
     if (!attendanceModal || !modalTableBody) {
@@ -90,8 +90,11 @@ function closeModal(attendanceModal) {
     }
 
     if (closeButton) {
-        closeButton.addEventListener('click', () => closeModal(attendanceModal));
+        closeButton.forEach(button => {
+            button.addEventListener('click', () => closeModal(attendanceModal));
+        });
     }
+    
 
     window.addEventListener('click', (event) => {
         if (event.target === attendanceModal) {
