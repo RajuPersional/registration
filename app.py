@@ -4,18 +4,23 @@ import os
 from database import check_login, get_user_data, get_all_users
 import sqlite3
 import re
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__, static_folder='static')
-CORS(app)
+CORS(app,supports_credentials=True)
 
 # Configure session
-app.config['SECRET_KEY'] = 'your-secret-key-here'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY') 
+
 
 @app.route('/api/login', methods=['POST'])
 def login():
     data = request.json
     register_number = data.get('registerNumber')
     password = data.get('password')
+    print(session)
     
     try:
         register_number = int(register_number)

@@ -1,3 +1,5 @@
 venv
 users.db
 __pycache__
+notes
+req.txt

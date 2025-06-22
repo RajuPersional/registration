@@ -50,12 +50,12 @@ document.addEventListener("DOMContentLoaded", function () {
     
     
     document.querySelectorAll('.sidebar-menu li').forEach(item => {
-        item.addEventListener('click', function() {
+        item.addEventListener('click', function(event) {
+            event.preventDefault();  // Add this line to prevent default navigation
             const url = this.dataset.url;
             if (url) {
                 loadPage(url);
             }
-
         });
     });
 

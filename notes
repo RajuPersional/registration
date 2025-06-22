@@ -11,3 +11,15 @@ user_blueprint = Blueprint('user', __name__)
 
 
 app.register_blueprint(user_blueprint)   this will allows to run the routers in the differect file 
+
+
+
+Method	Meaning (Semantics)	Typical Use
+GET	Read something	Get a list, get one item
+POST	Create something new	Register a user, create a blog
+PUT	Fully update something	Change name and email of a user
+PATCH	Partially update something	Just change the email
+DELETE	Delete something	Remove a user or post
+
+
+Nginx (Waiter) ---> WSGI (Translator) ---> Flask App (Chef)
