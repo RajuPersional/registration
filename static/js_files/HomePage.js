@@ -30,14 +30,15 @@ async function loadPage(url) {
             script.src = jsUrl;
             script.dataset.dynamic = "true";
             script.onload = () => {
-                const initFunc = window[`init${capitalized}Page`];
+                const initFunc = window[`init${capitalized}Page`] || window.sharedAttendanceLogic;
                 if (typeof initFunc === 'function') {
-                    initFunc();
+                  initFunc();
                 }
-            };
-            document.body.appendChild(script);
+              };
+              document.body.appendChild(script);
         }
-    } catch (error) {
+    } 
+    catch (error) {
         console.error('Error loading page:', error);
         container.innerHTML = '<p>Error loading page.</p>';
     }

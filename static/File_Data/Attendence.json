@@ -1,0 +1,20 @@
+{
+    "courses": {
+      "SPIC781": {"CourseName":"Product Design & Development for Sustainability","ClassAttended":23,"AttendedHours":56 ,"TotalClass":88,"TotalHours":66,"Percentage":"68%"} ,
+      "MMA1217": {"CourseName":"Mentor Mentee Meeting","ClassAttended":15,"AttendedHours":36,"TotalClass":88,"TotalHours":83,"Percentage":"76%"},
+      "SPIC4A04":{"CourseName":"Core Project for Big Data and Network Security","ClassAttended":19,"AttendedHours":44,"TotalClass":88,"TotalHours":76,"Percentage":"80%"}
+    },
+    "attendance": {
+      "SPIC781": [
+        { "datedOn": "01/01/2025", "attendanceType": "Absent" },
+        { "datedOn": "05/01/2025", "attendanceType": "Absent" }
+      ],
+      "MMA1217": [
+        { "datedOn": "03/01/2025", "attendanceType": "Absent" }
+      ],
+      "SPIC4A04": [
+        { "datedOn": "07/01/2025", "attendanceType": "Absent" }
+      ]
+    }
+  }
+  
