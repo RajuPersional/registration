@@ -54,44 +54,14 @@
 
 .attendance-table tbody tr {
   transition: background-color 0.2s;
+
 }
 
 .attendance-table tbody tr:hover {
   background-color: #f8f9fa;
 }
 
-.attendance-table tbody tr:nth-child(even) {
-  background-color: #fdfdfd;
-}
 
-.attendance-table tbody tr:nth-child(even):hover {
-  background-color: #f1f3f4;
-}
-
-.percentage {
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-weight: 600;
-  font-size: 12px;
-  display: inline-block;
-  min-width: 45px;
-  text-align: center;
-}
-
-.percentage.excellent {
-  background-color: #007bff;
-  color: white;
-}
-
-.percentage.good {
-  background-color: #ffc107;
-  color: #212529;
-}
-
-.percentage.poor {
-  background-color: #dc3545;
-  color: white;
-}
 
 .details-btn, .modal-close-btn{
   background-color: #dc3545;

@@ -29,20 +29,25 @@ async function loadPage(url) {
             const script = document.createElement('script');
             script.src = jsUrl;
             script.dataset.dynamic = "true";
-            script.onload = () => {
-                const initFunc = window[`init${capitalized}Page`] || window.sharedAttendanceLogic;
+            script.onload = () => { //1* perforemed After the load is Done 
+                const initFunc =  window[`init${capitalized}Page`]  
                 if (typeof initFunc === 'function') {
                   initFunc();
                 }
+                else {
+                        console.error("initFinancialPage not found.");
+                    }
               };
-              document.body.appendChild(script);
+            document.body.appendChild(script); // 1* First the Script is loaded 
         }
-    } 
+    }
     catch (error) {
         console.error('Error loading page:', error);
         container.innerHTML = '<p>Error loading page.</p>';
     }
 }
+
+
 
 // Add click event listeners for menu items
 document.addEventListener("DOMContentLoaded", function () {

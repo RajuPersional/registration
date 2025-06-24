@@ -1,4 +1,4 @@
-function initProfilePage() {
+window.initProfilePage = ()=> {
     // Get the button directly
     const editButton = document.getElementById('edit-save-btn');
 

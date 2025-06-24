@@ -1,8 +1,6 @@
-// =======================
-// Updated Attendance.js (Using Combined JSON)
-// =======================
 
-window.sharedAttendanceLogic = async function () {
+
+window.initAttendencePage = async function () {
     const attendanceTableBody = document.getElementById('attendance-table-body');
     const modalTableBody = document.getElementById('modal-table-body');
     const modal = document.getElementById('attendance-modal');
@@ -50,7 +48,7 @@ window.sharedAttendanceLogic = async function () {
       if (event.target.classList.contains('details-btn')) {
         const row = event.target.closest('tr');
         const courseCode = row.cells[1].textContent.trim();
-        openModal(courseCode, attendanceData[courseCode], modalTableBody, modal);
+        openModal(attendanceData[courseCode], modalTableBody, modal);
       }
     });
   
@@ -62,8 +60,8 @@ window.sharedAttendanceLogic = async function () {
       if (e.target === modal) modal.style.display = 'none';
     };
   };
-  
-  function openModal(dataForCourse, modalTableBody, modal) {
+   
+  function openModal(dataForCourse, modalTableBody, modal) {// this is used to add the data to the table after the Button is Clicked
     modalTableBody.innerHTML = '';
   
     if (dataForCourse && dataForCourse.length > 0) {
@@ -82,5 +80,6 @@ window.sharedAttendanceLogic = async function () {
     }
   
     modal.style.display = 'block';
+
   }
   
