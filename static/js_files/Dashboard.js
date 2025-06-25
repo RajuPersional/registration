@@ -1,1 +1,4 @@
-console.log("hello");
+window.initDashboardPage=()=>{
+
+    console.log("dahsboard")
+}

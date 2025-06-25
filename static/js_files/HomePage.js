@@ -30,16 +30,17 @@ async function loadPage(url) {
             script.src = jsUrl;
             script.dataset.dynamic = "true";
             script.onload = () => { //1* perforemed After the load is Done 
-                const initFunc =  window[`init${capitalized}Page`]  
+                const initFunc =  window[`init${capitalized}Page`] 
                 if (typeof initFunc === 'function') {
                   initFunc();
                 }
-                else {
-                        console.error("initFinancialPage not found.");
+               else {
+                    console.error(`❌ ${capitalized}Page init function not found on window`);
                     }
               };
             document.body.appendChild(script); // 1* First the Script is loaded 
         }
+       
     }
     catch (error) {
         console.error('Error loading page:', error);

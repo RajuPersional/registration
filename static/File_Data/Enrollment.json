@@ -1,0 +1,20 @@
+{
+    "slot-a": [
+        { "title": "MAT1001-Advanced Mathematics for Engineers-Dr. Rajesh Kumar", "badge": "15" },
+        { "title": "PHY2001-Quantum Physics Applications-Dr. Priya Sharma", "badge": "8" },
+        { "title": "CHE2001-Chemical Engineering Applications-Dr. Sumanth Reddy", "badge": "12" }
+    ],
+    "slot-b": [
+        { "title": "BIO1001-Biotechnology Fundamentals-Dr. Kavya Nair", "badge": "25" },
+        { "title": "EEE2001-Power Systems Analysis-Prof. Ramesh Gupta", "badge": "18" }
+    ],
+    "slot-c": [
+        { "title": "AER1001-Aerospace Dynamics-Dr. Vikram Joshi", "badge": "10" },
+        { "title": "MAR2001-Marine Engineering-Prof. Lata Desai", "badge": "28" }
+    ],
+    "slot-d": [
+        { "title": "ECA0307-Signals and Systems for Speech Recognition-Dr.Vidhya", "badge": "18" },
+        { "title": "ECA1418-Embedded Systems for IoT-KEERTHI KASSAN V", "badge": "0" },
+        { "title": "CSA0834-Python Programming for Polymorphism-Dr.G.Charlyn Pushpa Latha", "badge": "0" }
+    ]
+}

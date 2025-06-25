@@ -1,25 +1,6 @@
-(function () {
-    const courseData = {
-        'slot-a': [
-            { title: "MAT1001-Advanced Mathematics for Engineers-Dr. Rajesh Kumar", badge: "15" },
-            { title: "PHY2001-Quantum Physics Applications-Dr. Priya Sharma", badge: "8" },
-            { title: "CHE2001-Chemical Engineering Applications-Dr. Sumanth Reddy", badge: "12" } ,
-        ],
-        'slot-b': [
-            { title: "BIO1001-Biotechnology Fundamentals-Dr. Kavya Nair", badge: "25" },
-            { title: "EEE2001-Power Systems Analysis-Prof. Ramesh Gupta", badge: "18" },
-        ],
-        'slot-c': [
-            { title: "AER1001-Aerospace Dynamics-Dr. Vikram Joshi", badge: "10" },
-            { title: "MAR2001-Marine Engineering-Prof. Lata Desai", badge: "28" },
-        ],
-        'slot-d': [
-            { title: "ECA0307-Signals and Systems for Speech Recognition-Dr.Vidhya", badge: "18" },
-            { title: "ECA1418-Embedded Systems for IoT-KEERTHI KASSAN V", badge: "0" },
-            { title: "CSA0834-Python Programming for Polymorphism-Dr.G.Charlyn Pushpa Latha", badge: "0" },
-        ]
-    };
-
+window.initEnrollmentPage= async function(){
+    const response = await fetch("/static/File_Data/Enrollment.json")
+    const courseData = await response.json();
     function showToast(message) {
         const toastContainer = document.getElementById('toastContainer');
         if (!toastContainer) {
@@ -66,6 +47,8 @@
                 <div class="course-badge">${course.badge}</div>
             `;
             courseGrid.appendChild(courseCard);
+            courseCard.css
+
         });
 
         attachRadioListeners();
@@ -88,6 +71,7 @@
             card.addEventListener('click', e => {
                 if (e.target.type !== 'radio') {
                     const radio = card.querySelector('input[type="radio"]');
+                    
                     if (radio) {
                         radio.checked = true;
                         radio.dispatchEvent(new Event('change'));
@@ -111,7 +95,7 @@
     }
 
     // ✅ Call this manually after page is loaded
-    function initEnrollmentPage() {
+    function EnrollmentPage() {
         const courseGrid = document.getElementById('courseGrid');
         const slotSelect = document.getElementById('slotSelect');
 
@@ -126,9 +110,9 @@
         });
     }
 
+    document.querySelector('.section-header').addEventListener('click',toggleSection)
     // Expose to global scope
-    window.toggleSection = toggleSection;
-    window.handleEnrollment = handleEnrollment;
-    window.initEnrollmentPage = initEnrollmentPage; // Changed from initCoursesPage
+    document.querySelector('.btn-enrollment').addEventListener('click',handleEnrollment)
+    EnrollmentPage(); 
 
-})();
+};

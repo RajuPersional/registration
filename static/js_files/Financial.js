@@ -1,73 +1,28 @@
-// Updated Finance Page Script - Clean & Scoped
+// Finance Page Script - Scoped (No Globals)
 
 window.initFinancialPage = async function () {
     let currentPayment = null;
-    let sortDirection = {};
 
-    setupSorting();
     setupPaymentButtons();
     setupModal();
     updateTotalAmount();
-
-    function setupSorting() {
-        document.querySelectorAll('.sortable').forEach(header => {
-            header.addEventListener('click', () => {
-                const column = header.dataset.column;
-                const table = header.closest('table');
-                sortTable(table, column, header);
-            });
-        });
-    }
-
-    function sortTable(table, column, header) {
-        const tbody = table.querySelector('tbody');
-        const rows = Array.from(tbody.querySelectorAll('tr'));
-        const index = Array.from(header.parentNode.children).indexOf(header);
-        const direction = sortDirection[column] === 'asc' ? 'desc' : 'asc';
-        sortDirection[column] = direction;
-
-        updateSortIcons(table, header, direction);
-
-        rows.sort((a, b) => {
-            const aVal = parseCell(a.children[index].textContent.trim(), column);
-            const bVal = parseCell(b.children[index].textContent.trim(), column);
-            return direction === 'asc' ? (aVal > bVal ? 1 : -1) : (aVal < bVal ? 1 : -1);
-        });
-
-        rows.forEach(row => tbody.appendChild(row));
-    }
-
-    function parseCell(value, column) {
-        if (column === 'amount') return parseFloat(value.replace(/,/g, '')) || 0;
-        if (column === 'dueDate') return parseDate(value);
-        return value.toLowerCase();
-    }
-
-    function parseDate(str) {
-        const parts = str.split('/');
-        return new Date(parts[2], parts[1] - 1, parts[0]);
-    }
-
-    function updateSortIcons(table, activeHeader, dir) {
-        table.querySelectorAll('.sort-icon').forEach(icon => {
-            icon.textContent = '▲';
-            icon.style.opacity = '0.5';
-        });
-        const icon = activeHeader.querySelector('.sort-icon');
-        if (icon) {
-            icon.textContent = dir === 'asc' ? '▲' : '▼';
-            icon.style.opacity = '1';
-        }
-    }
+    setupPrintButtons();
 
     function setupPaymentButtons() {
         document.querySelectorAll('.pay-now-btn').forEach(btn => {
             btn.addEventListener('click', () => {
-                const feeType = btn.dataset.fee;
-                const amount = parseInt(btn.dataset.amount);
+                const row = btn.closest('tr');
+                const feeType = row.children[0].textContent.trim();
+                const amount = parseInt(row.children[1].textContent.trim());
                 handlePayment(feeType, amount);
             });
         });
+
+        const confirmBtn = document.querySelector('.confirm-btn');
+        if (confirmBtn) confirmBtn.addEventListener('click', confirmPayment);
+
+        const cancelBtn = document.querySelector('.cancel-btn');
+        if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
     }
 
     function handlePayment(feeType, amount) {
@@ -77,16 +32,16 @@ window.initFinancialPage = async function () {
         if (modal && details) {
             details.innerHTML = `
                 <strong>Fee Type:</strong> ${feeType}<br>
-                <strong>Amount:</strong> ₹${amount.toLocaleString()}<br>
+                <strong>Amount:</strong> ₹${amount.toLocaleString()}<br> 
                 <strong>Payment Method:</strong> Online`;
             modal.style.display = 'block';
-        }
+        }                                                                   // the tolocalString Converst the data number in to "1,50,000" 
     }
 
     function confirmPayment() {
         if (!currentPayment) return;
         const reference = Math.floor(Math.random() * 900000000) + 100000000;
-        const date = new Date().toLocaleString('en-IN');
+        const date = new Date().toLocaleString('en-IN');//the Date is the inbuilt class
         addToPaymentHistory(currentPayment.feeType, currentPayment.amount, reference, date);
         removeFromDueList(currentPayment.feeType);
         updateTotalAmount();
@@ -95,11 +50,10 @@ window.initFinancialPage = async function () {
         currentPayment = null;
     }
 
-    window.confirmPayment = confirmPayment; // expose to global so it can be used by button if needed
-
     function addToPaymentHistory(feeType, amount, ref, date) {
         const tbody = document.querySelector('#historyTable tbody');
         if (!tbody) return;
+
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${feeType}</td>
@@ -107,8 +61,13 @@ window.initFinancialPage = async function () {
             <td>Online</td>
             <td>${ref}</td>
             <td>${date}</td>
-            <td><button class="print-btn" onclick="printReceipt('${ref}', '${feeType}', ${amount})">Print</button></td>`;
+            <td><button class="print-btn">Print</button></td>`;
         tbody.insertBefore(row, tbody.firstChild);
+
+        const printBtn = row.querySelector('.print-btn');
+        if (printBtn) {
+            printBtn.addEventListener('click', () => printReceipt(ref, feeType, amount));
+        }
     }
 
     function removeFromDueList(feeType) {
@@ -127,7 +86,7 @@ window.initFinancialPage = async function () {
         if (totalAmount) totalAmount.textContent = total.toLocaleString();
     }
 
-    window.printReceipt = function (ref, feeType, amount) {
+    function printReceipt(ref, feeType, amount) {
         const content = `
             <div style="font-family: Arial; max-width: 400px; padding: 20px;">
                 <h2 style="text-align:center; color:#2ecc71;">Payment Receipt</h2><hr>
@@ -142,7 +101,19 @@ window.initFinancialPage = async function () {
         if (!win) return showNotification('Pop-up blocked!', 'info');
         win.document.write(`<html><head><title>Receipt</title></head><body>${content}</body></html>`);
         win.document.close();
-        win.print();
+        win.print();// this is the inbuilt Funtion
+    }
+
+    function setupPrintButtons() {
+        document.querySelectorAll('.print-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const row = btn.closest('tr');
+                const feeType = row.children[0].textContent.trim();
+                const amount = parseInt(row.children[1].textContent.trim());
+                const ref = row.children[3].textContent.trim();
+                printReceipt(ref, feeType, amount);
+            });
+        });
     }
 
     function setupModal() {
