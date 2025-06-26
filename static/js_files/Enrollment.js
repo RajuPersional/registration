@@ -91,7 +91,34 @@ window.initEnrollmentPage= async function(){
 
     function handleEnrollment() {
         const selected = document.querySelector('input[name="course"]:checked');
+        const parts = selected.value.split('-'); //*1
+        const code = parts[0];// 👉 code = "MAT1001"                    
+
+        const subject = parts.slice(1, -1).join('-'); // *2
+
+        fetch('/save-attendance', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({code:code,subject:subject})
+        })
+        .then(async res => {
+                const text = await res.json();  // Waits for full response body
+
+                if (!res.ok) {
+                showToast(`Error: ${text.message}`);
+                throw new Error(text.message);        //  Triggers .catch()
+                }
+
+                showToast(json.message);
+                return text;                    //  Goes to next .then() (if any)
+            })
+        .then(data => {
+            console.log(' Saved:', data);
+            showToast("Enrollment saved to attendance");})
+        .catch(err => console.error(' Error:', err));
+
         showToast(selected ? 'Enrollment Successful' : 'Please select a course before enrolling.');
+
     }
 
     // ✅ Call this manually after page is loaded
@@ -112,7 +139,10 @@ window.initEnrollmentPage= async function(){
 
     document.querySelector('.section-header').addEventListener('click',toggleSection)
     // Expose to global scope
-    document.querySelector('.btn-enrollment').addEventListener('click',handleEnrollment)
+    document.querySelector('.btn-enrollment').addEventListener('click',function(){
+
+        handleEnrollment()
+    })
     EnrollmentPage(); 
 
 };

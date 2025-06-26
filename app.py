@@ -1,36 +1,47 @@
+import os
+import json
+import re
+import sqlite3
 from flask import Flask, request, jsonify, render_template, session
 from flask_cors import CORS
-import os
 from database import check_login, get_user_data, get_all_users
-import sqlite3
-import re
 from dotenv import load_dotenv
 
 load_dotenv()
 
 app = Flask(__name__, static_folder='static')
-CORS(app,supports_credentials=True)
+CORS(app, supports_credentials=True)
 
-# Configure session
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY') 
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+ATTENDANCE_FILE = os.path.join('static', 'File_Data', 'Attendence.json')
+
+
+def load_attendance_data():
+    """Load existing attendance JSON if file exists."""
+    if not os.path.exists(ATTENDANCE_FILE):
+        return None
+    with open(ATTENDANCE_FILE, 'r') as f:
+        return json.load(f)
+
+
+@app.route('/')
+def home():
+    return render_template('Bricks.html')
 
 
 @app.route('/api/login', methods=['POST'])
 def login():
-    data = request.json
+    data = request.get_json()
     register_number = data.get('registerNumber')
     password = data.get('password')
-    print(session)
-    
+
     try:
         register_number = int(register_number)
     except (ValueError, TypeError):
         return jsonify({'status': 'fail', 'message': 'Invalid registration number'}), 400
 
-    # Check user in database using our new function
-    if check_login(register_number, password): # the return will be  like this if (true)
+    if check_login(register_number, password):
         session['register_number'] = register_number
-        session['password'] = password  # Store password in session for verification
         return jsonify({
             'status': 'success',
             'message': 'Login successful',
@@ -39,85 +50,133 @@ def login():
     else:
         return jsonify({'status': 'fail', 'message': 'Invalid credentials'}), 401
 
-@app.route('/')
-def home():
-    return render_template('Bricks.html')
 
 @app.route('/HomePage')
 def homepage():
-    if 'register_number' not in session: #even though the user data is in the database is because the session acts as proof that the user is currently logged in
+    if 'register_number' not in session:
         return render_template('Bricks.html')
-    
-    user_data = get_user_data(session['register_number'], session['password'])
-    return render_template('HomePage.html', user=user_data) if user_data else render_template('Bricks.html')# this is get the data form the db for displying the name , that  data will be direcly accessed in the html page 
+
+    user_data = get_user_data(session['register_number'], None)
+    return render_template('HomePage.html', user=user_data) if user_data else render_template('Bricks.html')
+
 
 @app.route('/Profile')
 def profile():
-    if 'register_number' not in session or 'password' not in session:
+    if 'register_number' not in session:
+        return render_template('Bricks.html')
+
+    user_data = get_user_data(session['register_number'], None)
+    if not user_data:
+        session.clear()
         return render_template('Bricks.html')
     
-    user_data = get_user_data(session['register_number'], session['password'])
-    if not user_data:
-        # Clear session if user data is not found or password doesn't match
-        session.clear()
-        return render_template('Bricks.html')  # Redirect to login if user not found
-    
     return render_template('Profile.html', user=user_data)
+
 
 @app.route('/Financial')
 def financial():
     return render_template('Financial.html')
 
+
 @app.route('/Enrollment')
 def enrollment():
     return render_template('Enrollment.html')
 
-@app.route('/Dashboard')
-def Dashboard():
-    return render_template('Dashboard.html')
 
 @app.route('/Attendence')
 def attendence():
-    return render_template('Attendence.html') 
+    return render_template('Attendence.html')
+
+
+@app.route('/Dashboard')
+def dashboard():
+    return render_template('Dashboard.html')
+
 
 @app.route('/Courses')
 def courses():
-    return render_template('course.html')    
+    return render_template('course.html')
+
 
 @app.route('/view-database')
 def view_database():
     users = get_all_users()
     return render_template('view_database.html', users=users)
 
+
+@app.route('/save-attendance', methods=['POST'])
+def save_attendance():
+    data = request.get_json()
+    code = data.get('code')
+    subject = data.get('subject')
+
+    if not code:
+        return jsonify({"status": "fail", "message": "❌ Missing course code"}), 400
+    if not subject:
+        return jsonify({"status": "fail", "message": "❌ Missing subject name"}), 400
+
+    temp_data = session.get('temp_enrollment', {})
+    if code not in temp_data:
+        temp_data[code] = {
+            "CourseName": subject,
+            "ClassAttended": 0,
+            "AttendedHours": 0,
+            "TotalClass": 0,
+            "TotalHours": 0,
+            "Percentage": "0%"
+        }
+        session['temp_enrollment'] = temp_data
+
+    return jsonify({'status': 'success', 'message': '✅ Enrollment temporarily saved'}), 200
+
+
+@app.route('/api/merged-attendance')
+def merged_attendance():
+    permanent_data = load_attendance_data()
+    temp_data = session.get('temp_enrollment', {})
+
+    # Combine courses
+    merged_courses = permanent_data.get('courses', {}).copy()# this will get the courses data from teh json 
+    merged_courses.update(temp_data)  # temp overrides permanent
+
+    return jsonify({
+        "courses": merged_courses,
+        "attendance": permanent_data.get('attendance', {})
+    })
+
+
+@app.route('/reset-attendance', methods=['POST'])
+def reset_attendance():
+    session.pop('temp_enrollment', None)  # Clear temp session
+    return "✅ Attendance reset", 200
+
+
+
 @app.route('/api/update-profile', methods=['POST'])
 def update_profile():
     if 'register_number' not in session:
         return jsonify({'status': 'fail', 'message': 'Not logged in'}), 401
-    
-    data = request.json
+
+    data = request.get_json()
     register_number = session['register_number']
-    
-    # Basic required field check (keep this for security)
+
     required_fields = ['name', 'email', 'phone_number', 'date_of_birth']
     for field in required_fields:
-        if field not in data or not data[field]:
+        if not data.get(field):
             return jsonify({'status': 'fail', 'message': f'{field.replace("_", " ").title()} is required'}), 400
-    
-    # Email validation
+
     email_pattern = re.compile(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
     if not email_pattern.match(data['email']):
         return jsonify({'status': 'fail', 'message': 'Invalid email format'}), 400
-    
-    # Phone number validation
+
     phone_pattern = re.compile(r'^\d{10}$')
     if not phone_pattern.match(data['phone_number']):
         return jsonify({'status': 'fail', 'message': 'Phone number must be 10 digits'}), 400
-    
+
     try:
-        # Update user data in database
         conn = sqlite3.connect('users.db')
         cursor = conn.cursor()
-        
+
         cursor.execute('''
             UPDATE user 
             SET name = ?, email = ?, phone_number = ?, date_of_birth = ?
@@ -129,28 +188,20 @@ def update_profile():
             data['date_of_birth'],
             register_number
         ))
-        
+
         conn.commit()
-        
+
         if cursor.rowcount == 0:
-            return jsonify({
-                'status': 'fail',
-                'message': 'User not found'
-            }), 404
-            
-        return jsonify({
-            'status': 'success',
-            'message': 'Profile updated successfully'
-        })
-        
+            return jsonify({'status': 'fail', 'message': 'User not found'}), 404
+
+        return jsonify({'status': 'success', 'message': 'Profile updated successfully'}), 200
+
     except sqlite3.Error as e:
         print(f"Database error: {e}")
-        return jsonify({
-            'status': 'fail',
-            'message': 'Database error occurred'
-        }), 500
+        return jsonify({'status': 'fail', 'message': 'Database error occurred'}), 500
     finally:
         conn.close()
+
 
 if __name__ == '__main__':
     app.run(debug=True)

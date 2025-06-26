@@ -56,6 +56,13 @@
             grid-template-columns: repeat(2, 1fr);
             gap: 24px;
             width: 900px;
+    
+            
+        }
+
+        .placeholder{
+            display: none;height: 25px; font-size: 17px;
+
         }
 
         .detail-group {
@@ -321,6 +328,7 @@
             font-size: 1rem;
             transition: border-color 0.3s ease;
         }
+
 
         .profile-input:focus {
             border-color: #6a1b9a;
