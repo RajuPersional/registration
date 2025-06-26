@@ -11,9 +11,7 @@
 
 }
 
-.courses{
-    display: block;
-}
+
 
 .inprogress-courses{
     margin-top: 50px;
@@ -124,6 +122,17 @@
 .course-table tr:nth-child(even) td {
     background: #fafbfc;
 }
+
+.section-content {
+  max-height: 1000px; /* big enough */
+  transition: max-height 0.4s ease;
+  overflow: hidden;
+}
+
+.collapsed .section-content {
+  max-height: 0;
+}
+
 
 /* Status Badges */
 .status-badge {

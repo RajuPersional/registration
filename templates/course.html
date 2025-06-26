@@ -2,14 +2,12 @@
 
     <div  id="course-container" class="course-management">
         <div class="completed-course">
-       <div class="courses">
-           <div class="section-headers">
-               <div>
+        <div class="collapsible-section" data-collapsible>
+             <div class="section-headers" data-toggle>
                    COMPLETED COURSES
-               </div>
                <span class="toggle-icon">▼</span>
            </div>
-           <div class="section-content">
+           <div class="section-content" data-content>
                <div class="scrollable-wrapper">
                    <table class="course-table" id="completed-courses-table">
                        <thead>
@@ -67,18 +65,18 @@
                    </table>
                </div>
            </div>
-       </div> <!-- end of .courses -->
+        </div>
+          
    </div> <!-- end of .completed-course -->
 
    <!-- In Progress Courses Section -->
    <div class="inprogress-courses">
-       <div class="section-headers">
-           <div>
+      <div class="collapsible-section" data-collapsible>
+        <div class="section-headers" data-toggle>
                IN PROGRESS COURSES
-           </div>
            <span class="toggle-icon">▼</span>
        </div>
-       <div class="section-content">
+       <div class="section-content" data-content>
            <table class="course-table" id="inprogress-courses-table">
                <thead>
                    <tr>
@@ -89,26 +87,11 @@
                    </tr>
                </thead>
                <tbody>
-                   <tr>
-                       <td><span class="course-code">MMA1217</span></td>
-                       <td>Mentor Mentee Meeting</td>
-                       <td><span class="status-badge status-inprogress">InProgress</span></td>
-                       <td>07/02/2025</td>
-                   </tr>
-                   <tr>
-                       <td><span class="course-code">SPIC4A04</span></td>
-                       <td>Core Project for Big Data and Network Security</td>
-                       <td><span class="status-badge status-inprogress">InProgress</span></td>
-                       <td>03/03/2025</td>
-                   </tr>
-                   <tr>
-                       <td><span class="course-code">SPIC781</span></td>
-                       <td>Product Design & Development for Sustainability</td>
-                       <td><span class="status-badge status-inprogress">InProgress</span></td>
-                       <td>20/01/2025</td>
-                   </tr>
+                  <!-- Add the data -->
                </tbody>
            </table>
            </div>
+      </div>
+       
        </div>
            </div>
