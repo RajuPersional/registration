@@ -21,7 +21,7 @@ def load_attendance_data():
     if not os.path.exists(ATTENDANCE_FILE):
         return None
     with open(ATTENDANCE_FILE, 'r') as f:
-        return json.load(f)
+        return json.load(f)   #json.load(f) in Python converts JSON to dict.
 
 
 @app.route('/')
@@ -132,11 +132,11 @@ def save_attendance():
 
 @app.route('/api/merged-attendance')
 def merged_attendance():
-    permanent_data = load_attendance_data()
+    permanent_data = load_attendance_data() # this will get the courses data from teh json 
     temp_data = session.get('temp_enrollment', {})
 
     # Combine courses
-    merged_courses = permanent_data.get('courses', {}).copy()# this will get the courses data from teh json 
+    merged_courses = permanent_data.get('courses', {}).copy()
     merged_courses.update(temp_data)  # temp overrides permanent
 
     return jsonify({

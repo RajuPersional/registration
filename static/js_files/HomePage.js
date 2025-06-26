@@ -76,5 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
-
-
+// Put this anywhere in your JS (usually HomePage.js)
+window.addEventListener("beforeunload", function () {
+  navigator.sendBeacon('/reset-attendance');
+});

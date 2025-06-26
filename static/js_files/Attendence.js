@@ -1,5 +1,4 @@
 window.initAttendencePage = async function () {
-
   const attendanceTableBody = document.getElementById('attendance-table-body');
   const modalTableBody = document.getElementById('modal-table-body');
   const modal = document.getElementById('attendance-modal');
@@ -19,7 +18,7 @@ window.initAttendencePage = async function () {
     return;
   }
 
-  await fetch('/reset-attendance', { method: 'POST' });
+  
   const courses = data.courses;
   const attendanceData = data.attendance;
 
