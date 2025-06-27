@@ -1,13 +1,16 @@
 
 /* Main Content Styles */
+.Dashboard-section{
+    width: 100%;
+}
+
+
 .main-content {
     margin-top: 15px;
     display: flex;
     flex-direction: row;
     height: fit-content;
     gap:30px;
-
-    
 }
 
 .Dashboard{

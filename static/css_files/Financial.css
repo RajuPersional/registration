@@ -4,7 +4,7 @@
     margin: 20px;
     display: flex;
     flex-direction: column;
-    min-width: 1400px;
+    width: 98%;
 }
 
 .page-title {

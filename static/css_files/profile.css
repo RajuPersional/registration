@@ -3,7 +3,7 @@
             backdrop-filter: blur(20px);
             overflow: hidden;
             position: relative;
-            min-width: 1450px;
+            width: 100%;
             padding-left: 30px;
             margin-top: none;
             max-height: 900px;
@@ -201,6 +201,13 @@
         }
 
         /* Table Section */
+
+        .table-section{
+            max-width: 98%;
+            margin-right: 10px;
+        }
+
+
         .section-header {
             display: flex;
             justify-content: space-between;
