@@ -16,6 +16,14 @@ app = Flask( __name__, static_folder=os.path.join(os.path.dirname(__file__), '..
 init_mail(app)
 CORS(app, supports_credentials=True)
 
+valid_pages = {
+        'Dashboard': 'Dashboard.html',
+        'Financial':'Financial.html',
+        'Courses': 'course.html',
+        'Verfy':'Verfy.html',
+        'Attendence':'Attendence.html',
+        'Enrollment':'Enrollment.html'
+    }
 
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 ATTENDANCE_FILE = os.path.join('static', 'File_Data', 'Attendence.json')
@@ -81,15 +89,9 @@ def profile():
 
 @app.route('/<page_name>')
 def dynamic_page(page_name):
-    valid_pages = {
-        'Dashboard': 'Dashboard.html',
-        'Financial':'Financial.html',
-        'Courses': 'course.html',
-        'Verfy':'Verfy.html',
-        'Attendence':'Attendence.html',
-        'Enrollment':'Enrollment.html'
-    }
-
+    if 'register_number' not in session:
+        return render_template('Bricks.html')  # or redirect
+    
     template = valid_pages.get(page_name)
     if not template:
         return "❌ Page not found", 404
