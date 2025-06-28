@@ -47,7 +47,6 @@ window.initEnrollmentPage= async function(){
                 <div class="course-badge">${course.badge}</div>
             `;
             courseGrid.appendChild(courseCard);
-            courseCard.css
 
         });
 

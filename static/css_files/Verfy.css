@@ -27,7 +27,9 @@ h2 {
 }
 
 input[type="text"],
-input[type="email"] {
+input[type="email"],
+input[type="password"]
+{
   width: 100%;
   padding: 10px 12px;
   margin: 10px 0;
@@ -36,6 +38,11 @@ input[type="email"] {
   font-size: 16px;
   box-sizing: border-box;
 }
+
+input[type="password"]{
+    width: 100%;
+   
+}   
 
 button {
   width: 100%;
@@ -58,3 +65,4 @@ button:hover {
   margin-top: 20px;
   transition: all 0.4s ease-in-out;
 }
+

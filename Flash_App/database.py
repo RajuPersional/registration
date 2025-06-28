@@ -66,7 +66,7 @@ def is_registered_user(register_number):
     try:
         conn = sqlite3.connect('users.db')  # DB file
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM user WHERE register_number = ?", (register_number,))
+        cursor.execute("SELECT * FROM user WHERE register_number = ?", (register_number))
         user = cursor.fetchone()
         conn.close()
         return bool(user)  # ✅ Returns True if user exists, else False
@@ -114,6 +114,32 @@ def get_user_data(register_number, password=None):
         return None
     finally:
         conn.close()
+
+
+def update_password(password,registration):
+    conn = sqlite3.connect('users.db')
+    cursor = conn.cursor()
+    try:
+            cursor.execute(
+                    "UPDATE user SET password = ? WHERE register_number = ?",
+                    (password, registration)
+                )
+
+            conn.commit()
+
+            if cursor.rowcount == 0:
+                    print("❌ No user found with that registration number.")
+                    return False
+            else:
+                    print("✅ Password updated successfully.")
+                    return True 
+
+    except sqlite3.Error as e:
+        print(f"Error updating password: {e}")
+        return False  
+    finally:
+        conn.close()
+
 
 # Create the database when this file is run directly
 if __name__ == '__main__':

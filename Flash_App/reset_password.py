@@ -2,10 +2,10 @@
 
 import os
 import random
-from flask import Blueprint, request, jsonify,session
+from flask import Blueprint, request, jsonify,session,render_template
 from flask_mail import Mail, Message
 from dotenv import load_dotenv
-from database import is_registered_user  # ✅ Import your DB checker
+from database import is_registered_user,update_password  # ✅ Import your DB checker
 
 # ✅ Load environment variables from .env
 load_dotenv()
@@ -82,3 +82,19 @@ def verify_otp():
         return jsonify({'status': 'success', 'message': 'OTP verified'}), 200
     else:
         return jsonify({'status': 'fail', 'message': 'Invalid OTP'}), 401
+
+
+@reset_password_bp.route('/update/password', methods=['POST'])
+def update_password_route():
+    data =  request.get_json()
+    password = str(data.get('password'))
+    registration =str(session.get('verified_reset_user'))
+    print(registration)
+    
+    if not data :
+        return jsonify({'status': 'fail', 'message': 'Invalid OTP'}), 401
+    
+    if not update_password(password,registration):
+        return jsonify({'status': 'fail', 'message': 'You are not registered'}), 404
+    else:
+        return jsonify({'status': 'success', 'redirect': '/'})
