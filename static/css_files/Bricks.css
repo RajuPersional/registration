@@ -123,8 +123,9 @@ body {
 
 .remember-me {
     display: flex;
+    justify-content: space-between;
     align-items: center; 
-    justify-content: flex-start; /* Align items to the start */
+
     margin-bottom: 15px;
     gap: 5px; /* Add spacing between the checkbox and the text */
 }
@@ -140,7 +141,7 @@ body {
 
     font-size: 20px; /* Adjust the font size as needed */
     color: #555; /* Text color */
-    margin-left: 200px; /* Add spacing between the checkbox and the text */
+    
     justify-content: flex-end;
 }
 .login-button {

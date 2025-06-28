@@ -1,6 +1,7 @@
 import os
 import json
 import re
+from reset_password import reset_password_bp,init_mail
 import sqlite3
 from flask import Flask, request, jsonify, render_template, session
 from flask_cors import CORS
@@ -9,12 +10,16 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-app = Flask(__name__, static_folder='static')
+app = Flask( __name__, static_folder=os.path.join(os.path.dirname(__file__), '..', 'static'),# Path for the static file  'C:/Users/raj/Desktop/BRICKS/static'
+    template_folder=os.path.join(os.path.dirname(__file__), '..', 'templates'))# Path for the temaplate Files  'C:/Users/raj/Desktop/BRICKS/template
+
+init_mail(app)
 CORS(app, supports_credentials=True)
 
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 ATTENDANCE_FILE = os.path.join('static', 'File_Data', 'Attendence.json')
-
+ 
+app.register_blueprint(reset_password_bp) #You tell Flask to include it 
 
 def load_attendance_data():
     """Load existing attendance JSON if file exists."""
@@ -71,6 +76,11 @@ def profile():
         return render_template('Bricks.html')
     
     return render_template('Profile.html', user=user_data)
+
+
+@app.route('/verfy')
+def verfy():
+    return render_template('verfy.html')
 
 
 @app.route('/Financial')

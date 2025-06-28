@@ -1,5 +1,4 @@
 function bricks() {
-    document.addEventListener("DOMContentLoaded", () => {
         const welcomeText = document.getElementById("welcome-text");
         const subheadingText = document.getElementById("subheading-text");
 
@@ -11,13 +10,32 @@ function bricks() {
         setTimeout(() => {
             welcomeText.style.opacity = "1";
             welcomeText.style.transition = "opacity 1s";
-        }, 1000);
+        }, 800);
 
         // Show the subheading text after 1.4 seconds
         setTimeout(() => {
             subheadingText.style.opacity = "1";
             subheadingText.style.transition = "opacity 1s";
-        }, 1400);
+        }, 1000);
+    };
+
+
+function togglePasswordVisibility() { //1*
+    const toggle = document.querySelector('.toggle-password');  // 👁️ icon
+    const passwordInput = document.getElementById('password');   // password field
+                                                                
+    toggle.addEventListener('click', () => {
+        const isPassword = passwordInput.type === 'password'; // check type
+        passwordInput.type = isPassword ? 'text' : 'password';
+        toggle.textContent = isPassword ? '🙈' : '👁️';  // Optional: icon toggle
+    });
+}
+
+function loadVerfy() {
+  fetch('/Verfy')
+    .then(response => response.text())
+    .then(html => {
+      document.getElementById('container').innerHTML = html;
     });
 }
 
@@ -57,10 +75,13 @@ function login() {
     });
 }
 
+
+
 // Initialize both functions when the DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     bricks();
     login();
+    togglePasswordVisibility();
 });
 
 

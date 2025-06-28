@@ -1,9 +1,9 @@
 import pytest
-from app import app
+from Flash_App.app import app
 import json
 import os
 import sqlite3
-from database import create_database
+from Flash_App.database import create_database
 
 @pytest.fixture(scope='session')
 def setup_database():

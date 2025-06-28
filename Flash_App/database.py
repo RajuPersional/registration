@@ -61,6 +61,19 @@ def get_all_users():
     finally:
         conn.close()
 
+
+def is_registered_user(register_number):
+    try:
+        conn = sqlite3.connect('users.db')  # DB file
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM user WHERE register_number = ?", (register_number,))
+        user = cursor.fetchone()
+        conn.close()
+        return bool(user)  # ✅ Returns True if user exists, else False
+    except Exception as e:
+        print(f"DB error during validation: {e}")
+        return False
+
 def get_user_data(register_number, password=None):
     """Get user data by registration number and optionally verify password
     

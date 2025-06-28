@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Forgot Password</title>
+    <link rel="stylesheet" href="/static/css_files/Verfy.css">
+</head>
+<body>
+    <div>
+        <h2>Forgot Password</h2>
+
+        <!-- Step 1: Register Number -->
+        <div id="step1">
+            <input type="text" id="reg-number" placeholder="Enter Register Number">
+            <button id="check-reg-btn">Verify Registration</button>
+        </div>
+
+
+
+        <!-- Step 2: Email (Hidden Initially) -->
+        <div id="step2" style="display: none;">
+            <input type="email" id="email" placeholder="Enter Registered Email">
+            <button id="send-otp-btn">Send OTP</button>
+        </div>
+    
+        <div id="step3" style="display: none;">
+            <input type="text" id="otp" placeholder="Enter OTP">
+            <button id="verify-otp-btn">Verify OTP</button>
+        </div>
+    </div>
+
+    <script>
+        // Step 1: Verify Registration Number
+        document.getElementById('check-reg-btn').addEventListener('click', async () => {
+            const reg = document.getElementById('reg-number').value;
+
+            const res = await fetch('/verify-register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',  // ✅ Important: to maintain session!
+                body: JSON.stringify({ register_number: reg })
+            });
+
+            const data = await res.json();
+            if (data.status === 'success') {
+                alert("✅ Registration number verified");
+                document.getElementById('step2').style.display = 'block';
+                 document.getElementById('step3').style.display = 'block';
+                document.getElementById('reg-number').disabled = true;
+                document.getElementById('check-reg-btn').disabled = true;
+            } else {
+                alert("❌ " + data.message);
+            }
+        });
+
+        // Step 2: Send OTP to Email
+        document.getElementById('send-otp-btn').addEventListener('click', async () => {
+            const email = document.getElementById('email').value;
+
+            const res = await fetch('/send-otp', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',  // ✅ To keep session
+                body: JSON.stringify({ email: email })
+            });
+
+            const data = await res.json();
+            alert(data.message);
+        });
+    
+        document.getElementById('verify-otp-btn').addEventListener('click', async () => {
+                const email = document.getElementById('email').value;
+                const otp = document.getElementById('otp').value;
+
+                const res = await fetch('/verify-otp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ email: email, otp: otp })
+                });
+
+                const data = await res.json();
+                alert(data.message);
+
+                if (data.status === 'success') {
+                    // ✅ You can now allow password reset
+                    console.log("OTP verified! Now show password reset form.");
+                }
+            });
+
+    </script>
+</body>
+</html>
