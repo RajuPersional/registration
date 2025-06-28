@@ -16,6 +16,7 @@ app = Flask( __name__, static_folder=os.path.join(os.path.dirname(__file__), '..
 init_mail(app)
 CORS(app, supports_credentials=True)
 
+
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 ATTENDANCE_FILE = os.path.join('static', 'File_Data', 'Attendence.json')
  
@@ -39,6 +40,7 @@ def login():
     data = request.get_json()
     register_number = data.get('registerNumber')
     password = data.get('password')
+   
 
     try:
         register_number = int(register_number)

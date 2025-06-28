@@ -11,7 +11,7 @@
             background-color: #f5f5f5;
         }
         .container {
-            max-width: 1200px;
+            width: 100%;
             margin: 0 auto;
             background-color: white;
             padding: 20px;
@@ -74,15 +74,15 @@
                 </tr>
             </thead>
             <tbody>
-                {% for user in users %}
+                {% for user in users %}<!--(Jinja2)  It iterates over each user in the list users.-->
                 <tr>
                     <td>{{ loop.index }}</td>
                     <td>{{ user[0] }}</td>
                     <td>{{ user[1] }}</td>
-                    <td>{{ user[2] }}</td>
                     <td>{{ user[3] }}</td>
                     <td>{{ user[4] }}</td>
                     <td>{{ user[5] }}</td>
+                    <td>{{ user[6] }}</td>
                 </tr>
                 {% endfor %}
                 {% if not users %}
