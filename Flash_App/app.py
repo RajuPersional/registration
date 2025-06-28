@@ -79,45 +79,21 @@ def profile():
     
     return render_template('Profile.html', user=user_data)
 
+@app.route('/<page_name>')
+def dynamic_page(page_name):
+    valid_pages = {
+        'Dashboard': 'Dashboard.html',
+        'Financial':'Financial.html',
+        'Courses': 'course.html',
+        'Verfy':'Verfy.html',
+        'Attendence':'Attendence.html',
+        'Enrollment':'Enrollment.html'
+    }
 
-@app.route('/verfy')
-def verfy():
-    return render_template('verfy.html')
-
-
-@app.route('/Financial')
-def financial():
-    if 'register_number' not in session:
-        return jsonify({'status': 'fail', 'message': 'Not logged in'}), 401
-    return render_template('Financial.html')
-
-
-@app.route('/Enrollment')
-def enrollment():
-    if 'register_number' not in session:
-        return jsonify({'status': 'fail', 'message': 'Not logged in'}), 401
-    return render_template('Enrollment.html')
-
-
-@app.route('/Attendence')
-def attendence():
-    if 'register_number' not in session:
-        return jsonify({'status': 'fail', 'message': 'Not logged in'}), 401
-    return render_template('Attendence.html')
-
-
-@app.route('/Dashboard')
-def dashboard():
-    if 'register_number' not in session:
-        return jsonify({'status': 'fail', 'message': 'Not logged in'}), 401
-    return render_template('Dashboard.html')
-
-
-@app.route('/Courses')
-def courses():
-    if 'register_number' not in session:
-        return jsonify({'status': 'fail', 'message': 'Not logged in'}), 401
-    return render_template('course.html')
+    template = valid_pages.get(page_name)
+    if not template:
+        return "❌ Page not found", 404
+    return render_template(template)
 
 
 @app.route('/view-database')
