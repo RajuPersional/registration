@@ -1,9 +1,23 @@
-document.addEventListener("DOMContentLoaded", function () {
+// ✅ Tells TypeScript/VSCode: I am adding csrfToken to window
+window.csrfToken = window.csrfToken || '';
+
+async function ensureCSRFToken() {
+  if (!window.csrfToken) {
+    const res = await fetch('/get-csrf-token', { credentials: 'include' });
+    const data = await res.json();
+    window.csrfToken = data.csrf_token;
+  }
+}
+
+async function verify() {
+  await ensureCSRFToken();
   register_number();
   otp();
   otp_verify();
   password_verfy();
+}
 
+verify()
   // 🔁 Helper to manage step visibility
   function showStep(stepIdToShow) {
     const steps = ["step1", "step2", "step3", "step4"];
@@ -20,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const res = await fetch("/verify-register", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", 'X-CSRFToken': csrfToken},
         credentials: "include",
         body: JSON.stringify({ register_number: reg }),
       });
@@ -44,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const res = await fetch("/send-otp", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", 'X-CSRFToken': csrfToken  },
         credentials: "include",
         body: JSON.stringify({ email: email }),
       });
@@ -65,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const res = await fetch("/verify-otp", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", 'X-CSRFToken': csrfToken },
         credentials: "include",
         body: JSON.stringify({ email: email, otp: otp }),
       });
@@ -81,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
           const res = await fetch("/update/password", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json", 'X-CSRFToken': csrfToken },
             credentials: "include",
             body: JSON.stringify({ password: password }),
           });
@@ -134,4 +148,3 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
-});

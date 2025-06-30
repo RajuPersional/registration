@@ -3,6 +3,9 @@ import json
 import re
 from reset_password import reset_password_bp,init_mail
 import sqlite3
+from flask_wtf.csrf import CSRFProtect
+from flask import request, abort
+from flask_wtf.csrf import validate_csrf, CSRFError, generate_csrf
 from flask import Flask, request, jsonify, render_template, session
 from flask_cors import CORS
 from database import check_login, get_user_data, get_all_users
@@ -15,12 +18,13 @@ app = Flask( __name__, static_folder=os.path.join(os.path.dirname(__file__), '..
 
 init_mail(app)
 CORS(app, supports_credentials=True)
+csrf = CSRFProtect(app)
+
 
 valid_pages = {
         'Dashboard': 'Dashboard.html',
         'Financial':'Financial.html',
         'Courses': 'course.html',
-        'Verfy':'Verfy.html',
         'Attendence':'Attendence.html',
         'Enrollment':'Enrollment.html'
     }
@@ -38,10 +42,32 @@ def load_attendance_data():
         return json.load(f)   #json.load(f) in Python converts JSON to dict.
 
 
+
+@app.before_request
+def check_csrf_for_json():
+    if request.method in ['POST', 'PUT', 'DELETE']:
+        # Only apply CSRF check for JSON requests
+        if request.is_json:
+            csrf_token = request.headers.get('X-CSRFToken')
+            try:
+                validate_csrf(csrf_token)
+            except CSRFError:
+                abort(400, "Invalid or missing CSRF token.")
+
+
+@app.route("/get-csrf-token", methods=["GET"])
+def get_csrf_token():
+    response = jsonify({'csrf_token': generate_csrf()})
+    response.headers.set("Access-Control-Allow-Credentials", "true")  # If using CORS
+    return response
+
 @app.route('/')
 def home():
     return render_template('Bricks.html')
 
+@app.route('/verfy')
+def verfy():
+    return render_template('verfy.html')# i have to create the serperate Route for this beacuse there is no Session is created at this point to this will Give an error
 
 @app.route('/api/login', methods=['POST'])
 def login():
@@ -135,10 +161,9 @@ def save_attendance():
 @app.route('/api/merged-attendance')
 def merged_attendance():
     permanent_data = load_attendance_data() # this will get the courses data from teh json 
-    temp_data = session.get('temp_enrollment', {})
-
+    temp_data = session.get('temp_enrollment', {})#in the First click the temp_enrollment is empty
     # Combine courses
-    merged_courses = permanent_data.get('courses', {}).copy()
+    merged_courses = permanent_data.get('courses', {}).copy() #If 'courses' does not exist, it returns an empty dictionary {} instead (as a fallback).
     merged_courses.update(temp_data)  # temp overrides permanent
 
     return jsonify({
@@ -148,6 +173,7 @@ def merged_attendance():
 
 
 @app.route('/reset-attendance', methods=['POST'])
+@csrf.exempt # we added this beacuse it has the post request but the  navigator.sendBeacon('/reset-attendance') dont carry the post request to we need to we need to tell the meachiine not to apply the csrf Protection for this Request 
 def reset_attendance():
     session.pop('temp_enrollment', None)  # Clear temp session
     return "✅ Attendance reset", 200

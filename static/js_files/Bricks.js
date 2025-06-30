@@ -1,3 +1,6 @@
+
+/** @type {string} */
+window.csrfToken;
 function bricks() {
         const welcomeText = document.getElementById("welcome-text");
         const subheadingText = document.getElementById("subheading-text");
@@ -19,6 +22,11 @@ function bricks() {
         }, 1000);
     };
 
+async function getCSRFToken() {
+    const res = await fetch('/get-csrf-token',{ credentials: 'include' });
+    const data = await res.json();
+    window.csrfToken = data.csrf_token; 
+}    
 
 function togglePasswordVisibility() { //1*
     const toggle = document.querySelector('.toggle-password');  // 👁️ icon
@@ -31,13 +39,6 @@ function togglePasswordVisibility() { //1*
     });
 }
 
-function loadVerfy() {
-  fetch('/Verfy')
-    .then(response => response.text())
-    .then(html => {
-      document.getElementById('container').innerHTML = html;
-    });
-}
 
 function login() {
     const submitBtn = document.getElementById('submit-btn');
@@ -56,7 +57,7 @@ function login() {
         try {
             const res = await fetch('http://127.0.0.1:5000/api/login', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json','X-CSRFToken':window.csrfToken},
                 body: JSON.stringify({ registerNumber, password }),
                 credentials: 'include'  // This is important for session cookies
             });
@@ -78,7 +79,8 @@ function login() {
 
 
 // Initialize both functions when the DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async function() {
+    await getCSRFToken();
     bricks();
     login();
     togglePasswordVisibility();

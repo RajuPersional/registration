@@ -1,4 +1,6 @@
+
 window.initProfilePage = ()=> {
+
     // Get the button directly
     const editButton = document.getElementById('edit-save-btn');
 
@@ -125,6 +127,7 @@ window.initProfilePage = ()=> {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'X-CSRFToken': window.csrfToken 
                 },
                 body: JSON.stringify(formData),
                 credentials: 'include'

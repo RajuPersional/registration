@@ -97,7 +97,7 @@ window.initEnrollmentPage= async function(){
 
         fetch('/save-attendance', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken},
             body: JSON.stringify({code:code,subject:subject})
         })
         .then(async res => {

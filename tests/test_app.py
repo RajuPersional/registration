@@ -1,5 +1,5 @@
 import pytest
-from Flash_App.app import app
+from Flash_App import app
 import json
 import os
 import sqlite3

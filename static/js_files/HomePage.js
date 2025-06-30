@@ -1,3 +1,15 @@
+
+// ✅ Tells TypeScript/VSCode: I am adding csrfToken to window
+window.csrfToken = window.csrfToken || '';
+
+async function ensureCSRFToken() {
+  if (!window.csrfToken) {
+    const res = await fetch('/get-csrf-token', { credentials: 'include' });
+    const data = await res.json();
+    window.csrfToken = data.csrf_token;
+  }
+}
+
 async function loadPage(url) {
     const container = document.getElementById('total-container');
 
@@ -51,7 +63,8 @@ async function loadPage(url) {
 
 
 // Add click event listeners for menu items
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded",async function () {
+    await ensureCSRFToken();
     console.log("HomePage.js: DOMContentLoaded fired.");
     loadPage('/Dashboard')
     
