@@ -33,31 +33,48 @@ async function loadPage(url) {
         const capitalized = name.charAt(0).toUpperCase() + name.slice(1);
         console.log(`Page name: ${name}, Capitalized: ${capitalized}`);
         
-        // Try both capitalized and lowercase versions
+        // Try multiple variations of CSS paths
         const cssPaths = [
             `/static/css_files/${capitalized}.css`,
-            `/static/css_files/${name}.css`
+            `/static/css_files/${name}.css`,
+            `/static/css_files/${name.toLowerCase()}.css`
         ];
 
+        let cssLoaded = false;
         for (const path of cssPaths) {
             try {
                 console.log(`Checking CSS file: ${path}`);
-                const response = await fetch(path, { method: 'HEAD' });
+                const response = await fetch(path, { 
+                    method: 'HEAD',
+                    credentials: 'include'
+                });
+                
                 if (response.ok) {
                     console.log(`Found CSS file: ${path}`);
                     const cssLink = document.createElement('link');
                     cssLink.rel = 'stylesheet';
                     cssLink.href = path;
                     cssLink.dataset.dynamic = "true";
+                    cssLink.onload = () => {
+                        console.log(`Successfully loaded CSS from: ${path}`);
+                        cssLoaded = true;
+                    };
+                    cssLink.onerror = () => {
+                        console.error(`Failed to load CSS from: ${path}`);
+                        cssLoaded = false;
+                    };
                     document.head.appendChild(cssLink);
-                    console.log(`Successfully loaded CSS from: ${path}`);
-                    break; // Stop trying other paths if we found one that works
+                    break;
                 } else {
                     console.log(`CSS file not found: ${path}, Status: ${response.status}`);
                 }
             } catch (error) {
                 console.error(`Error checking CSS file ${path}:`, error);
             }
+        }
+
+        if (!cssLoaded) {
+            console.warn(`No CSS file found for page: ${name}`);
         }
         
         // Load dynamic JS if exists

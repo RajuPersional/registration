@@ -45,7 +45,8 @@ valid_pages = {
     'Financial': 'Financial.html',  # Correct
     'Courses': 'Course.html',       # Fixed from 'course.html'
     'Attendence': 'Attendence.html',  # Correct
-    'Enrollment': 'Enrollment.html',  # Correct   
+    'Enrollment': 'Enrollment.html',  # Correct
+    'HomePage': 'HomePage.html'     # Added HomePage for consistency
 }
 
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
