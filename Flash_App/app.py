@@ -37,12 +37,12 @@ with app.app_context():
     db_manager.initialize_database()
 
 valid_pages = {
-        'Dashboard': 'Dashboard.html',
-        'Financial':'Financial.html',
-        'Courses': 'course.html',
-        'Attendence':'Attendence.html',
-        'Enrollment':'Enrollment.html'
-    }
+    'Dashboard': 'Dashboard.html',  # Correct
+    'Financial': 'Financial.html',  # Correct
+    'Courses': 'Course.html',       # Fixed from 'course.html'
+    'Attendence': 'Attendence.html',  # Correct
+    'Enrollment': 'Enrollment.html',  # Correct   
+}
 
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 ATTENDANCE_FILE = os.path.join('static', 'File_Data', 'Attendence.json')
