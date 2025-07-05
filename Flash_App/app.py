@@ -10,9 +10,12 @@ from Flash_App.database import db_manager
 load_dotenv()
 
 # Create app instance
+# Define the absolute path to the project root
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+
 app = Flask(__name__, 
-    static_folder=os.path.join(os.path.dirname(__file__), '..', 'static'),
-    template_folder=os.path.join(os.path.dirname(__file__), '..', 'templates'))
+            template_folder=os.path.join(BASE_DIR, 'templates'), 
+            static_folder=os.path.join(BASE_DIR, 'static'))
 
 # Production configuration
 app.config['ENV'] = 'production'
