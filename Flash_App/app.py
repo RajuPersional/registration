@@ -137,11 +137,20 @@ def profile():
 def dynamic_page(page_name):
     if 'register_number' not in session:
         return render_template('Bricks.html')  # or redirect
-    
+
+    # Fetch user data to pass to the template, similar to the /Profile route
+    user_data = db_manager.get_user_data(session['register_number'], None)
+    if not user_data:
+        # If user not found, clear session and redirect to login
+        session.clear()
+        return render_template('Bricks.html')
+
     template = valid_pages.get(page_name)
     if not template:
         return "❌ Page not found", 404
-    return render_template(template)
+    
+    # Pass user data to the template, which is required by Dashboard, Courses, etc.
+    return render_template(template, user=user_data)
 
 
 @app.route('/view-database')
