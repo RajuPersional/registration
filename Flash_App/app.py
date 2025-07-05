@@ -1,12 +1,18 @@
+# In app.py, organize imports better
 import json
 import os
 import re
-from reset_password import reset_password_bp, init_mail
+
+# Flask imports
 from flask import Flask, request, jsonify, render_template, session
 from flask_cors import CORS
-from flask_wtf.csrf import CSRFProtect, validate_csrf, CSRFError,generate_csrf
+from flask_wtf.csrf import CSRFProtect, validate_csrf, CSRFError, generate_csrf
+
+# Local imports
+from Flash_App.reset_password import reset_password_bp, init_mail
+from database import db_manager
 from dotenv import load_dotenv
-from database import db_manager  # Relative import
+
 load_dotenv()
 
 # Create app instance

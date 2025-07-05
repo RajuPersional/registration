@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import logging
 import os
 
+
 # Configure logging
 logging.basicConfig(level=logging.INFO)# this will set the level of the Logging
 logger = logging.getLogger(__name__)
