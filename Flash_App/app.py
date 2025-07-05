@@ -18,6 +18,10 @@ app = Flask(__name__,
 app.config['ENV'] = 'production'
 app.config['DEBUG'] = False
 
+# Configure static file serving
+app.config['STATIC_URL_PATH'] = '/static'
+app.config['STATIC_FOLDER'] = os.path.join(os.path.dirname(__file__), '..', 'static')
+
 # Logging configuration
 import logging
 logging.basicConfig(

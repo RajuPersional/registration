@@ -10,44 +10,45 @@ async function ensureCSRFToken() {
   }
 }
 
+// In HomePage.js
 async function loadPage(url) {
     const container = document.getElementById('total-container');
-
-    // Remove old dynamic CSS & JS
     document.querySelectorAll('[data-dynamic="true"]').forEach(el => el.remove());
-
+    
     try {
-        // Load HTML content
         const res = await fetch(url);
         if (!res.ok) throw new Error(`Failed to load page: ${res.status}`);
         const html = await res.text();
         container.innerHTML = html;
 
-        // Extract name and capitalize for CSS/JS file names
         const name = url.split('/').pop();
         const capitalized = name.charAt(0).toUpperCase() + name.slice(1);
-
-        // Load dynamic CSS
-        const cssLink = document.createElement('link');
-        cssLink.rel = 'stylesheet';
-        cssLink.href = `/static/css_files/${name}.css`;
-        cssLink.dataset.dynamic = "true";
-        document.head.appendChild(cssLink);
-
+        
+        // Check if CSS file exists before loading
+        const cssCheck = await fetch(`/static/css_files/${capitalized}.css`, { method: 'HEAD' });
+        if (cssCheck.ok) {
+            const cssLink = document.createElement('link');
+            cssLink.rel = 'stylesheet';
+            cssLink.href = `/static/css_files/${capitalized}.css`;
+            cssLink.dataset.dynamic = "true";
+            document.head.appendChild(cssLink);
+        } else {
+            console.log(`No CSS file found for: ${capitalized}`);
+        }
         // Load dynamic JS if exists
-        const jsUrl = `/static/js_files/${name}.js`;
+        const jsUrl = `/static/js_files/${capitalized}.js`;
         const jsResponse = await fetch(jsUrl, { method: 'HEAD' });
         if (jsResponse.ok) {
             const script = document.createElement('script');
             script.src = jsUrl;
             script.dataset.dynamic = "true";
             script.onload = () => { //1* perforemed After the load is Done 
-                const initFunc =  window[`init${name}Page`] 
+                const initFunc =  window[`init${capitalized}Page`] 
                 if (typeof initFunc === 'function') {
                   initFunc();
                 }
                else {
-                    console.error(`❌ ${name}Page init function not found on window`);
+                    console.error(`❌ ${capitalized}Page init function not found on window`);
                     }
               };
             document.body.appendChild(script); // 1* First the Script is loaded 
