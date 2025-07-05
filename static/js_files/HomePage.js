@@ -16,48 +16,90 @@ async function loadPage(url) {
     document.querySelectorAll('[data-dynamic="true"]').forEach(el => el.remove());
     
     try {
+        console.log(`Attempting to load page: ${url}`);
         const res = await fetch(url);
-        if (!res.ok) throw new Error(`Failed to load page: ${res.status}`);
+        console.log(`Fetch response status: ${res.status}`);
+        
+        if (!res.ok) {
+            console.error(`Failed to load page: ${url}, Status: ${res.status}`);
+            throw new Error(`Failed to load page: ${url}, Status: ${res.status}`);
+        }
+        
         const html = await res.text();
+        console.log(`Successfully loaded HTML for page: ${url}`);
         container.innerHTML = html;
 
         const name = url.split('/').pop();
         const capitalized = name.charAt(0).toUpperCase() + name.slice(1);
+        console.log(`Page name: ${name}, Capitalized: ${capitalized}`);
         
-        // Check if CSS file exists before loading
-        const cssCheck = await fetch(`/static/css_files/${capitalized}.css`, { method: 'HEAD' });
-        if (cssCheck.ok) {
-            const cssLink = document.createElement('link');
-            cssLink.rel = 'stylesheet';
-            cssLink.href = `/static/css_files/${capitalized}.css`;
-            cssLink.dataset.dynamic = "true";
-            document.head.appendChild(cssLink);
-        } else {
-            console.log(`No CSS file found for: ${capitalized}`);
+        // Try both capitalized and lowercase versions
+        const cssPaths = [
+            `/static/css_files/${capitalized}.css`,
+            `/static/css_files/${name}.css`
+        ];
+
+        for (const path of cssPaths) {
+            try {
+                console.log(`Checking CSS file: ${path}`);
+                const response = await fetch(path, { method: 'HEAD' });
+                if (response.ok) {
+                    console.log(`Found CSS file: ${path}`);
+                    const cssLink = document.createElement('link');
+                    cssLink.rel = 'stylesheet';
+                    cssLink.href = path;
+                    cssLink.dataset.dynamic = "true";
+                    document.head.appendChild(cssLink);
+                    console.log(`Successfully loaded CSS from: ${path}`);
+                    break; // Stop trying other paths if we found one that works
+                } else {
+                    console.log(`CSS file not found: ${path}, Status: ${response.status}`);
+                }
+            } catch (error) {
+                console.error(`Error checking CSS file ${path}:`, error);
+            }
         }
+        
         // Load dynamic JS if exists
         const jsUrl = `/static/js_files/${capitalized}.js`;
+        console.log(`Checking JS file: ${jsUrl}`);
         const jsResponse = await fetch(jsUrl, { method: 'HEAD' });
+        
         if (jsResponse.ok) {
+            console.log(`Found JS file: ${jsUrl}`);
             const script = document.createElement('script');
             script.src = jsUrl;
             script.dataset.dynamic = "true";
-            script.onload = () => { //1* perforemed After the load is Done 
-                const initFunc =  window[`init${capitalized}Page`] 
+            
+            script.onload = () => {
+                console.log(`Successfully loaded JS file: ${jsUrl}`);
+                const initFunc = window[`init${capitalized}Page`];
                 if (typeof initFunc === 'function') {
-                  initFunc();
-                }
-               else {
+                    console.log(`Initializing page with: init${capitalized}Page`);
+                    initFunc();
+                } else {
                     console.error(`❌ ${capitalized}Page init function not found on window`);
-                    }
-              };
-            document.body.appendChild(script); // 1* First the Script is loaded 
+                }
+            };
+            
+            script.onerror = () => {
+                console.error(`Error loading JS file: ${jsUrl}`);
+            };
+            
+            document.body.appendChild(script);
+        } else {
+            console.log(`JS file not found: ${jsUrl}, Status: ${jsResponse.status}`);
         }
        
     }
     catch (error) {
         console.error('Error loading page:', error);
-        container.innerHTML = '<p>Error loading page.</p>';
+        container.innerHTML = `
+            <div style="text-align: center; padding: 20px;">
+                <h2>Error loading page</h2>
+                <p>Details: ${error.message}</p>
+            </div>
+        `;
     }
 }
 
