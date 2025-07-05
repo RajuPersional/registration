@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <title>Forgot Password</title>
-    <link rel="stylesheet" href="/static/css_files/verfy.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css_files/verfy.css') }}">
 </head>
 <body>
     <div id="container">
@@ -28,6 +28,6 @@
         </div>
     </div>
 
-    <script src="../static/js_files/verfy.js" defer></script>
+    <script src="{{ url_for('static', filename='js_files/verfy.js') }}" defer></script>
 </body>
 </html>

@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="static/css_files/HomePage.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css_files/homepage.css') }}">
     
    
 </head>
@@ -19,7 +18,7 @@
                     <i class="fas fa-bars menu-toggle"></i>
                 </div>
                 <div class="logo-container">
-                    <img src="../static/Logo.jpeg" alt="Company Logo" class="logo">
+                    <img src="{{ url_for('static', filename='Logo.jpeg') }}" alt="Company Logo" class="logo">
                 </div>
                 <ul class="sidebar-menu" style="overflow: visible;">
                     <li data-url="/Dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</li>
@@ -34,7 +33,7 @@
             <div class="right-side">
                 <header class="main-header">
                     <div class="header-left">
-                        <img src="../static/saveetha.png" alt="Logo" class="header-logo">
+                        <img src="{{ url_for('static', filename='saveetha.png') }}" alt="Logo" class="header-logo">
                     </div>
                     <div class="header-right">
                         <span class="header-user">{{ user.name.upper() }}</span>
@@ -52,7 +51,7 @@
         </div>
     </div>
     <!-- Optional: Add JS file link if needed -->
-    <script src="../static/js_files/HomePage.js"></script>
+    <script src="{{ url_for('static', filename='js_files/homepage.js') }}"></script>
 
 </body>
 
