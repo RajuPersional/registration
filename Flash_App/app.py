@@ -1,25 +1,27 @@
-import os
 import json
+import os
 import re
-from reset_password import reset_password_bp,init_mail
-import sqlite3
-from flask_wtf.csrf import CSRFProtect
-from flask import request, abort
-from flask_wtf.csrf import validate_csrf, CSRFError, generate_csrf
+from reset_password import reset_password_bp, init_mail
 from flask import Flask, request, jsonify, render_template, session
 from flask_cors import CORS
-from database import check_login, get_user_data, get_all_users
+from flask_wtf.csrf import CSRFProtect, validate_csrf, CSRFError,generate_csrf
 from dotenv import load_dotenv
-
+from database import db_manager  # Relative import
 load_dotenv()
 
-app = Flask( __name__, static_folder=os.path.join(os.path.dirname(__file__), '..', 'static'),# Path for the static file  'C:/Users/raj/Desktop/BRICKS/static'
-    template_folder=os.path.join(os.path.dirname(__file__), '..', 'templates'))# Path for the temaplate Files  'C:/Users/raj/Desktop/BRICKS/template
+# Create app instance
+app = Flask(__name__, 
+    static_folder=os.path.join(os.path.dirname(__file__), '..', 'static'),
+    template_folder=os.path.join(os.path.dirname(__file__), '..', 'templates'))
 
+# Initialize extensions
 init_mail(app)
 CORS(app, supports_credentials=True)
 csrf = CSRFProtect(app)
 
+# Initialize database
+with app.app_context():
+    db_manager.initialize_database()
 
 valid_pages = {
         'Dashboard': 'Dashboard.html',
@@ -81,7 +83,7 @@ def login():
     except (ValueError, TypeError):
         return jsonify({'status': 'fail', 'message': 'Invalid registration number'}), 400
 
-    if check_login(register_number, password):
+    if db_manager.check_login(register_number, password):
         session['register_number'] = register_number
         return jsonify({
             'status': 'success',
@@ -97,7 +99,7 @@ def homepage():
     if 'register_number' not in session:
         return render_template('Bricks.html')
 
-    user_data = get_user_data(session['register_number'], None)
+    user_data = db_manager.get_user_data(session['register_number'], None)
     return render_template('HomePage.html', user=user_data) if user_data else render_template('Bricks.html')
 
 
@@ -106,7 +108,7 @@ def profile():
     if 'register_number' not in session:
         return render_template('Bricks.html')
 
-    user_data = get_user_data(session['register_number'], None)
+    user_data = db_manager.get_user_data(session['register_number'], None)
     if not user_data:
         session.clear()
         return render_template('Bricks.html')
@@ -128,7 +130,8 @@ def dynamic_page(page_name):
 def view_database():
     if 'register_number' not in session:
         return jsonify({'status': 'fail', 'message': 'Not logged in'}), 401
-    users = get_all_users()
+    users = db_manager.get_all_users()
+    print(users)
     return render_template('view_database.html', users=users)
 
 
@@ -202,33 +205,23 @@ def update_profile():
         return jsonify({'status': 'fail', 'message': 'Phone number must be 10 digits'}), 400
 
     try:
-        conn = sqlite3.connect('users.db')
-        cursor = conn.cursor()
+        # Update profile using DatabaseManager
+        success = db_manager.update_profile(
+            register_number=register_number,
+            name=data['name'],
+            email=data['email'],
+            phone_number=data['phone_number'],
+            date_of_birth=data['date_of_birth']
+        )
 
-        cursor.execute('''
-            UPDATE user 
-            SET name = ?, email = ?, phone_number = ?, date_of_birth = ?
-            WHERE register_number = ?
-        ''', (
-            data['name'],
-            data['email'],
-            data['phone_number'],
-            data['date_of_birth'],
-            register_number
-        ))
-
-        conn.commit()
-
-        if cursor.rowcount == 0:
-            return jsonify({'status': 'fail', 'message': 'User not found'}), 404
-
-        return jsonify({'status': 'success', 'message': 'Profile updated successfully'}), 200
-
-    except sqlite3.Error as e:
-        print(f"Database error: {e}")
-        return jsonify({'status': 'fail', 'message': 'Database error occurred'}), 500
-    finally:
-        conn.close()
+        if success:
+            return jsonify({'status': 'success', 'message': 'Profile updated successfully'}), 200
+        else:
+            return jsonify({'status': 'fail', 'message': 'Failed to update profile'}), 500
+            
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({'status': 'error', 'message': 'An error occurred'}), 500
 
 
 if __name__ == '__main__':

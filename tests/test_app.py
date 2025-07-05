@@ -8,12 +8,13 @@ from Flash_App.database import create_database
 @pytest.fixture(scope='session')
 def setup_database():
     """Create a test database with sample data"""
-    # Create the database and tables
-    create_database()
+    # Create test database with different name
+    test_db = 'test_users.db'
+    create_database(db_name=test_db)
     yield
-    # Clean up after tests if needed
-    if os.path.exists('users.db'):
-        os.remove('users.db')
+    # Clean up after tests
+    if os.path.exists(test_db):
+        os.remove(test_db)
 
 @pytest.fixture
 def client(setup_database):

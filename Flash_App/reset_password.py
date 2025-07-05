@@ -1,25 +1,25 @@
-# ✅ reset_password.py (Blueprint + Mail config using .env)
+# reset_password.py (Blueprint + Mail config using .env)
 
 import os
 import random
 from flask import Blueprint, request, jsonify,session,render_template
 from flask_mail import Mail, Message
 from dotenv import load_dotenv
-from database import is_registered_user,update_password  # ✅ Import your DB checker
+from database import db_manager  # Relative import # Import your DB checker
 
-# ✅ Load environment variables from .env
+# Load environment variables from .env
 load_dotenv()
 
-# ✅ Create Blueprint
+# Create Blueprint
 reset_password_bp = Blueprint('reset_password_bp', __name__)
 
-# ✅ Initialize Flask-Mail object (not bound yet)
+# Initialize Flask-Mail object (not bound yet)
 mail = Mail()
 
-# ✅ In-memory OTP store
+# In-memory OTP store
 otp_store = {}
 
-# ✅ Function to configure mail for the main app
+# Function to configure mail for the main app
 def init_mail(app):
     app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
     app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT', 587))
@@ -37,7 +37,7 @@ def verify_register():
     if not register_number:
         return jsonify({'status': 'fail', 'message': 'Register number required'}), 400
 
-    if not is_registered_user(register_number):
+    if not db_manager.is_registered_user(register_number):
         return jsonify({'status': 'fail', 'message': 'You are not registered'}), 404
     
     session['verified_reset_user'] = register_number
@@ -45,11 +45,11 @@ def verify_register():
     return jsonify({'status': 'success', 'message': 'Register number verified'}), 200
 
 
-# ✅ Send OTP API
+# Send OTP API
 @reset_password_bp.route('/send-otp', methods=['POST'])
 def send_otp():
     data = request.get_json()
-    email = data.get('email')  # ✅ This must be added!
+    email = data.get('email')  # This must be added!
 
     if not email:
         return jsonify({'status': 'fail', 'message': 'Register number and email are required'}), 400
@@ -68,7 +68,7 @@ def send_otp():
         return jsonify({'status': 'fail', 'message': str(e)}), 500
 
 
-# ✅ Verify OTP API
+# Verify OTP API
 @reset_password_bp.route('/verify-otp', methods=['POST'])
 def verify_otp():
     data = request.get_json()
@@ -87,14 +87,14 @@ def verify_otp():
 @reset_password_bp.route('/update/password', methods=['POST'])
 def update_password_route():
     data =  request.get_json()
-    password = str(data.get('password'))
+    new_password = str(data.get('password'))
     registration =str(session.get('verified_reset_user'))
     print(registration)
     
     if not data :
         return jsonify({'status': 'fail', 'message': 'Invalid OTP'}), 401
     
-    if not update_password(password,registration):
+    if not db_manager.update_password(new_password,registration):
         return jsonify({'status': 'fail', 'message': 'You are not registered'}), 404
     else:
         return jsonify({'status': 'success', 'redirect': '/'})
