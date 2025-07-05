@@ -5,7 +5,7 @@ import random
 from flask import Blueprint, request, jsonify,session,render_template
 from flask_mail import Mail, Message
 from dotenv import load_dotenv
-from database import db_manager  # Relative import # Import your DB checker
+from Flash_App.database import db_manager # Relative import # Import your DB checker
 
 # Load environment variables from .env
 load_dotenv()

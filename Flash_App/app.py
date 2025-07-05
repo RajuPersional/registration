@@ -1,18 +1,31 @@
 import json
 import os
 import re
-from reset_password import reset_password_bp, init_mail
 from flask import Flask, request, jsonify, render_template, session
 from flask_cors import CORS
 from flask_wtf.csrf import CSRFProtect, validate_csrf, CSRFError,generate_csrf
 from dotenv import load_dotenv
-from database import db_manager  # Relative import
+from Flash_App.reset_password import reset_password_bp, init_mail
+from Flash_App.database import db_manager
 load_dotenv()
 
 # Create app instance
 app = Flask(__name__, 
     static_folder=os.path.join(os.path.dirname(__file__), '..', 'static'),
     template_folder=os.path.join(os.path.dirname(__file__), '..', 'templates'))
+
+# Production configuration
+app.config['ENV'] = 'production'
+app.config['DEBUG'] = False
+
+# Logging configuration
+import logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
 
 # Initialize extensions
 init_mail(app)
@@ -224,5 +237,11 @@ def update_profile():
         return jsonify({'status': 'error', 'message': 'An error occurred'}), 500
 
 
+# Error handler for production
+@app.errorhandler(500)
+def internal_error(error):
+    logger.error('Server Error: %s', str(error))
+    return render_template('500.html'), 500
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
