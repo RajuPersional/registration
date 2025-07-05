@@ -109,7 +109,7 @@ def login():
         return jsonify({
             'status': 'success',
             'message': 'Login successful',
-            'redirect': '/HomePage'
+            'redirect': '/homepage'
         }), 200
     else:
         return jsonify({'status': 'fail', 'message': 'Invalid credentials'}), 401
