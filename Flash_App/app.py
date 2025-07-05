@@ -238,10 +238,6 @@ def update_profile():
 
 
 # Error handler for production
-@app.errorhandler(500)
-def internal_error(error):
-    logger.error('Server Error: %s', str(error))
-    return render_template('500.html'), 500
 
 if __name__ == '__main__':
     app.run()

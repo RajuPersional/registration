@@ -30,24 +30,24 @@ async function loadPage(url) {
         // Load dynamic CSS
         const cssLink = document.createElement('link');
         cssLink.rel = 'stylesheet';
-        cssLink.href = `/static/css_files/${capitalized}.css`;
+        cssLink.href = `/static/css_files/${name}.css`;
         cssLink.dataset.dynamic = "true";
         document.head.appendChild(cssLink);
 
         // Load dynamic JS if exists
-        const jsUrl = `/static/js_files/${capitalized}.js`;
+        const jsUrl = `/static/js_files/${name}.js`;
         const jsResponse = await fetch(jsUrl, { method: 'HEAD' });
         if (jsResponse.ok) {
             const script = document.createElement('script');
             script.src = jsUrl;
             script.dataset.dynamic = "true";
             script.onload = () => { //1* perforemed After the load is Done 
-                const initFunc =  window[`init${capitalized}Page`] 
+                const initFunc =  window[`init${name}Page`] 
                 if (typeof initFunc === 'function') {
                   initFunc();
                 }
                else {
-                    console.error(`❌ ${capitalized}Page init function not found on window`);
+                    console.error(`❌ ${name}Page init function not found on window`);
                     }
               };
             document.body.appendChild(script); // 1* First the Script is loaded 
