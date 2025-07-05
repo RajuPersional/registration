@@ -55,7 +55,7 @@ function login() {
         }
 
         try {
-            const res = await fetch('http://127.0.0.1:5000/api/login', {
+            const res = await fetch('/api/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json','X-CSRFToken':window.csrfToken},
                 body: JSON.stringify({ registerNumber, password }),
