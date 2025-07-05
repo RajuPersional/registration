@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>College Management System</title>
-    <link rel="stylesheet" href="../static/css_files/Bricks.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css_files/bricks.css') }}">
 </head>
 <body>
     <div class="container">
@@ -61,7 +61,7 @@
         
     </div>
 
-    <script src="../static/js_files/Bricks.js" defer></script>
+    <script src="{{ url_for('static', filename='js_files/bricks.js') }}" defer></script>
 
 
 </body>
