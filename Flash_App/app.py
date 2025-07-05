@@ -41,12 +41,12 @@ with app.app_context():
     db_manager.initialize_database()
 
 valid_pages = {
-    'Dashboard': 'Dashboard.html',  # Correct
-    'Financial': 'Financial.html',  # Correct
-    'Courses': 'Course.html',       # Fixed from 'course.html'
-    'Attendence': 'Attendence.html',  # Correct
-    'Enrollment': 'Enrollment.html',  # Correct
-    'HomePage': 'HomePage.html'     # Added HomePage for consistency
+    'dashboard': 'dashboard.html',
+    'financial': 'financial.html',
+    'courses': 'course.html',
+    'attendence': 'attendence.html',
+    'enrollment': 'enrollment.html',
+    'homepage': 'homepage.html'
 }
 
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
@@ -83,7 +83,7 @@ def get_csrf_token():
 
 @app.route('/')
 def home():
-    return render_template('Bricks.html')
+    return render_template('bricks.html')
 
 @app.route('/verfy')
 def verfy():
@@ -115,35 +115,35 @@ def login():
 @app.route('/HomePage')
 def homepage():
     if 'register_number' not in session:
-        return render_template('Bricks.html')
+        return render_template('bricks.html')
 
     user_data = db_manager.get_user_data(session['register_number'], None)
-    return render_template('HomePage.html', user=user_data) if user_data else render_template('Bricks.html')
+    return render_template('HomePage.html', user=user_data) if user_data else render_template('bricks.html')
 
 
-@app.route('/Profile')
+@app.route('/profile')
 def profile():
     if 'register_number' not in session:
-        return render_template('Bricks.html')
+        return render_template('bricks.html')
 
     user_data = db_manager.get_user_data(session['register_number'], None)
     if not user_data:
         session.clear()
-        return render_template('Bricks.html')
+        return render_template('bricks.html')
     
-    return render_template('Profile.html', user=user_data)
+    return render_template('profile.html', user=user_data)
 
 @app.route('/<page_name>')
 def dynamic_page(page_name):
     if 'register_number' not in session:
-        return render_template('Bricks.html')  # or redirect
+        return render_template('bricks.html')  # or redirect
 
     # Fetch user data to pass to the template, similar to the /Profile route
     user_data = db_manager.get_user_data(session['register_number'], None)
     if not user_data:
         # If user not found, clear session and redirect to login
         session.clear()
-        return render_template('Bricks.html')
+        return render_template('bricks.html')
 
     template = valid_pages.get(page_name)
     if not template:

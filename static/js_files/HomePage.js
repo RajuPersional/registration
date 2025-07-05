@@ -29,56 +29,26 @@ async function loadPage(url) {
         console.log(`Successfully loaded HTML for page: ${url}`);
         container.innerHTML = html;
 
-        const name = url.split('/').pop();
-        const capitalized = name.charAt(0).toUpperCase() + name.slice(1);
-        console.log(`Page name: ${name}, Capitalized: ${capitalized}`);
+        const name = url.split('/').pop().toLowerCase(); // Always use lowercase
+        console.log(`Page name: ${name}`);
         
-        // Try multiple variations of CSS paths
-        const cssPaths = [
-            `/static/css_files/${capitalized}.css`,
-            `/static/css_files/${name}.css`,
-            `/static/css_files/${name.toLowerCase()}.css`
-        ];
+        // Construct the single, correct CSS path
+        const cssPath = `/static/css_files/${name}.css`;
 
-        let cssLoaded = false;
-        for (const path of cssPaths) {
-            try {
-                console.log(`Checking CSS file: ${path}`);
-                const response = await fetch(path, { 
-                    method: 'HEAD',
-                    credentials: 'include'
-                });
-                
-                if (response.ok) {
-                    console.log(`Found CSS file: ${path}`);
-                    const cssLink = document.createElement('link');
-                    cssLink.rel = 'stylesheet';
-                    cssLink.href = path;
-                    cssLink.dataset.dynamic = "true";
-                    cssLink.onload = () => {
-                        console.log(`Successfully loaded CSS from: ${path}`);
-                        cssLoaded = true;
-                    };
-                    cssLink.onerror = () => {
-                        console.error(`Failed to load CSS from: ${path}`);
-                        cssLoaded = false;
-                    };
-                    document.head.appendChild(cssLink);
-                    break;
-                } else {
-                    console.log(`CSS file not found: ${path}, Status: ${response.status}`);
-                }
-            } catch (error) {
-                console.error(`Error checking CSS file ${path}:`, error);
-            }
-        }
-
-        if (!cssLoaded) {
-            console.warn(`No CSS file found for page: ${name}`);
+        try {
+            console.log(`Attempting to load CSS: ${cssPath}`);
+            const cssLink = document.createElement('link');
+            cssLink.rel = 'stylesheet';
+            cssLink.href = cssPath;
+            cssLink.dataset.dynamic = "true";
+            document.head.appendChild(cssLink);
+            console.log(`Successfully linked CSS: ${cssPath}`);
+        } catch (error) {
+            console.error(`Error loading CSS for ${name}:`, error);
         }
         
-        // Load dynamic JS if exists
-        const jsUrl = `/static/js_files/${capitalized}.js`;
+        // Load dynamic JS if it exists
+        const jsUrl = `/static/js_files/${name}.js`;
         console.log(`Checking JS file: ${jsUrl}`);
         const jsResponse = await fetch(jsUrl, { method: 'HEAD' });
         
@@ -90,12 +60,13 @@ async function loadPage(url) {
             
             script.onload = () => {
                 console.log(`Successfully loaded JS file: ${jsUrl}`);
-                const initFunc = window[`init${capitalized}Page`];
+                const capitalizedName = name.charAt(0).toUpperCase() + name.slice(1);
+                const initFunc = window[`init${capitalizedName}Page`];
                 if (typeof initFunc === 'function') {
-                    console.log(`Initializing page with: init${capitalized}Page`);
+                    console.log(`Initializing page with: init${capitalizedName}Page`);
                     initFunc();
                 } else {
-                    console.error(`❌ ${capitalized}Page init function not found on window`);
+                    console.error(`❌ init${capitalizedName}Page function not found on window`);
                 }
             };
             
