@@ -10,6 +10,7 @@ async function ensureCSRFToken() {
   }
 }
 
+
 // In HomePage.js
 async function loadPage(url) {
     const container = document.getElementById('total-container');
@@ -61,6 +62,7 @@ async function loadPage(url) {
             script.onload = () => {
                 console.log(`Successfully loaded JS file: ${jsUrl}`);
                 const capitalizedName = name.charAt(0).toUpperCase() + name.slice(1);
+                console.log(`Initializing page with: init${capitalizedName}Page`);
                 const initFunc = window[`init${capitalizedName}Page`];
                 if (typeof initFunc === 'function') {
                     console.log(`Initializing page with: init${capitalizedName}Page`);

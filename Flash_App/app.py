@@ -46,14 +46,15 @@ with app.app_context():
 valid_pages = {
     'dashboard': 'dashboard.html',
     'financial': 'financial.html',
-    'courses': 'course.html',
-    'attendence': 'attendence.html',
+    'course': 'course.html',
+    'attendance': 'attendance.html',
     'enrollment': 'enrollment.html',
-    'homepage': 'homepage.html'
+    'homepage': 'homepage.html',
+    'profile': 'profile.html'
 }
 
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-ATTENDANCE_FILE = os.path.join('static', 'File_Data', 'Attendence.json')
+ATTENDANCE_FILE = os.path.join('static', 'File_Data', 'attendance.json')
  
 app.register_blueprint(reset_password_bp) #You tell Flask to include it 
 
@@ -115,26 +116,6 @@ def login():
         return jsonify({'status': 'fail', 'message': 'Invalid credentials'}), 401
 
 
-@app.route('/HomePage')
-def homepage():
-    if 'register_number' not in session:
-        return render_template('bricks.html')
-
-    user_data = db_manager.get_user_data(session['register_number'], None)
-    return render_template('HomePage.html', user=user_data) if user_data else render_template('bricks.html')
-
-
-@app.route('/profile')
-def profile():
-    if 'register_number' not in session:
-        return render_template('bricks.html')
-
-    user_data = db_manager.get_user_data(session['register_number'], None)
-    if not user_data:
-        session.clear()
-        return render_template('bricks.html')
-    
-    return render_template('profile.html', user=user_data)
 
 @app.route('/<page_name>')
 def dynamic_page(page_name):
@@ -148,7 +129,7 @@ def dynamic_page(page_name):
         session.clear()
         return render_template('bricks.html')
 
-    template = valid_pages.get(page_name)
+    template = valid_pages.get(page_name.lower())
     if not template:
         return "❌ Page not found", 404
     
