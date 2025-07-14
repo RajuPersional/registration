@@ -45,9 +45,9 @@ class DatabaseManager:
             if cursor.fetchone()[0] == 0:
                 # Add sample users
                 sample_users = [
-                    (1, '1', generate_password_hash('1'), 'Raju', 'raju@gmail.com', '9121159199', '2000-01-15'),
-                    (2, '2', generate_password_hash('2'), 'Jane Smith', 'jane.smith@example.com', '2345678901', '2001-03-20'),
-                    (3, '3', generate_password_hash('3'), 'Mike Johnson', 'mike.johnson@example.com', '3456789012', '2002-05-10')
+                    (1, 'test1', generate_password_hash('password123'), 'Raju', 'raju@gmail.com', '9121159199', '2000-01-15'),
+                    (2, 'test2', generate_password_hash('password123'), 'Jane Smith', 'jane.smith@example.com', '2345678901', '2001-03-20'),
+                    (3, 'test3', generate_password_hash('password123'), 'Mike Johnson', 'mike.johnson@example.com', '3456789012', '2002-05-10')
                 ]
                 cursor.executemany('INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?)', sample_users)
                 logger.info("Sample users added to database")
