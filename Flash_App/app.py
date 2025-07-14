@@ -17,6 +17,10 @@ app = Flask(__name__,
             template_folder=os.path.join(BASE_DIR, 'templates'), 
             static_folder=os.path.join(BASE_DIR, 'static'))
 
+# Initialize database before routes
+with app.app_context():
+    db_manager.initialize_database()
+
 # Production configuration
 app.config['ENV'] = 'production'
 app.config['DEBUG'] = False
@@ -116,6 +120,10 @@ def login():
         return jsonify({'status': 'fail', 'message': 'Invalid credentials'}), 401
 
 
+@app.route('/api/logout', methods=['POST'])
+def logout():
+    session.clear()
+    return jsonify({'status': 'success', 'message': 'Logged out successfully'}), 200
 
 @app.route('/<page_name>')
 def dynamic_page(page_name):
@@ -126,7 +134,7 @@ def dynamic_page(page_name):
     user_data = db_manager.get_user_data(session['register_number'], None)
     if not user_data:
         # If user not found, clear session and redirect to login
-        session.clear()
+        # session.clear()
         return render_template('bricks.html')
 
     template = valid_pages.get(page_name.lower())

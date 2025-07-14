@@ -113,13 +113,27 @@ document.addEventListener("DOMContentLoaded",async function () {
     });
 
     // Add click event for .sig-out to redirect to /Bricks
-    const signOutElements = document.querySelectorAll('.sig-out');
-    console.log(`HomePage.js: Found ${signOutElements.length} .sig-out elements.`);
-    signOutElements.forEach(item => {
-        item.addEventListener('click', function() {
-            console.log("HomePage.js: .sig-out element clicked! Redirecting to /...");
+    // Replace the existing signOutElements code with this:
+const signOutElements = document.querySelectorAll('.sig-out');
+signOutElements.forEach(item => {
+    item.addEventListener('click', async function(e) {
+        e.preventDefault();
+        try {
+            const response = await fetch('/api/logout', {
+                method: 'POST',
+                credentials: 'same-origin',  // Important for sending session cookies
+                headers: {
+                    'X-CSRFToken': window.csrfToken
+                }
+            });
+            if (response.ok) {
+                window.location.href = '/';
+            }
+        } catch (error) {
+            console.error('Logout failed:', error);
             window.location.href = '/';
-        });
+        }
+    });
     });
 });
 // Put this anywhere in your JS (usually HomePage.js)

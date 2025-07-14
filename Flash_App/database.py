@@ -17,6 +17,7 @@ class DatabaseManager:
     def __init__(self):
         """Initialize the database connection"""
         self.db_path = os.path.join(os.path.dirname(__file__), 'users.db')
+        logger.info(f"[DatabaseManager] Using database file: {os.path.abspath(self.db_path)}")
         
     def initialize_database(self):
         """
@@ -45,9 +46,9 @@ class DatabaseManager:
             if cursor.fetchone()[0] == 0:
                 # Add sample users
                 sample_users = [
-                    (1, 'test1', generate_password_hash('password123'), 'Raju', 'raju@gmail.com', '9121159199', '2000-01-15'),
-                    (2, 'test2', generate_password_hash('password123'), 'Jane Smith', 'jane.smith@example.com', '2345678901', '2001-03-20'),
-                    (3, 'test3', generate_password_hash('password123'), 'Mike Johnson', 'mike.johnson@example.com', '3456789012', '2002-05-10')
+                    (1920, 'password123', generate_password_hash('password123'), 'Raju', 'raju@gmail.com', '9121159199', '2000-01-15'),
+                    (1921, 'password123', generate_password_hash('password123'), 'Jane Smith', 'jane.smith@example.com', '2345678901', '2001-03-20'),
+                    (1922, 'password123', generate_password_hash('password123'), 'Mike Johnson', 'mike.johnson@example.com', '3456789012', '2002-05-10')
                 ]
                 cursor.executemany('INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?)', sample_users)
                 logger.info("Sample users added to database")
